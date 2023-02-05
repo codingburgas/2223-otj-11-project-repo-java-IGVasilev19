@@ -13,7 +13,7 @@ const CustomButton = ({onPress, text, type="PRIMARY", bgColor, fgColor}) => {
       <Text 
       style={[
         styles.text,
-        styles[`text_$type`],
+        styles[`text_${type}`],
         fgColor ? {color: fgColor} : {}]
         }>{text}</Text>
     </Pressable>
