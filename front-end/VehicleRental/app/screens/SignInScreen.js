@@ -4,10 +4,6 @@ import CustomButton from '../components/CustomButton';
 import CustomInput from '../components/CustomInput';
 
 function SignInScreen(props) {
-    const [FirstName, setFirstName] = useState('');
-
-    const [LastName, setLastName] = useState('');
-
     const [username, setUsername] = useState('');
 
     const [password, setPassword] = useState('');
@@ -43,6 +39,7 @@ function SignInScreen(props) {
 
             <View style={styles.container2}> 
 
+            <View style={{paddingHorizontal: 12, left:2}}>
             <CustomInput 
             placeholder='Username'
             fgColor="#FFFFFF"
@@ -57,7 +54,9 @@ function SignInScreen(props) {
             setValue={setPassword}
             secureTextEntry={true}
             />
+            </View>
 
+            <View style={{paddingLeft: 25}}>
             <CustomButton text="Sign In" onPress={onSignInPressed}/>
 
             <CustomButton 
@@ -77,6 +76,7 @@ function SignInScreen(props) {
             <CustomButton text="Forgot password?" onPress={onForgotPasswordPressed} type="TERTIARY"/>
 
             <CustomButton text="Don't have an account? Sign Up." onPress={onSignUpPressed} type="TERTIARY"/>
+            </View>
 
             </View>
 
@@ -87,7 +87,7 @@ function SignInScreen(props) {
 const styles = StyleSheet.create({
     container1: {
         alignItems: "center",
-        top: 120,
+        top: 50,
         margin: 15,
     },
     container2: {
@@ -99,17 +99,16 @@ const styles = StyleSheet.create({
         borderWidth: 1,
         borderRadius: 5,
 
-        paddingLeft: 20,
         paddingTop: 10,
         paddingBottom: 10,
     },
     text1: {
-        fontSize:25,
+        fontSize:28,
         color: "white",
         fontWeight: "bold"
     },
     text2: {
-        fontSize:12,
+        fontSize:14,
         color: "white",
     }
 })
