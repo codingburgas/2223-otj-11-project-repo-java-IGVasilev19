@@ -2,14 +2,18 @@ import React, {useState} from 'react';
 import {  StyleSheet, View, Text, ScrollView } from 'react-native';
 import CustomButton from '../components/CustomButton';
 import CustomInput from '../components/CustomInput';
+import { useNavigation } from '@react-navigation/native';
 
 function SignInScreen(props) {
     const [username, setUsername] = useState('');
-
     const [password, setPassword] = useState('');
 
+    const navigation = useNavigation();
+
     const onSignInPressed = () =>{
-        console.warn("Sign In");
+        //validate user
+
+        navigation.navigate('Home');
     };
 
     const onSignInWithFacebookPressed = () =>{
@@ -21,14 +25,16 @@ function SignInScreen(props) {
     };
 
     const onForgotPasswordPressed = () =>{
-        console.warn("Forgot password");
+        navigation.navigate('ForgotPassword');
     };
 
     const onSignUpPressed = () =>{
-        console.warn("Sign Up");
+        navigation.navigate('Sign Up');
     };
 
     return (
+        <View style={styles.root}>
+
         <View style={styles.container1}>
 
             <Text style={styles.text1}>Welcome to "I Travel Private"</Text>
@@ -81,10 +87,16 @@ function SignInScreen(props) {
             </View>
 
         </View>
+
+        </View>
     );
 }
 
 const styles = StyleSheet.create({
+    root:{
+        flex: 1,
+        backgroundColor: "#454545",
+    },
     container1: {
         alignItems: "center",
         top: 50,

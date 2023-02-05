@@ -1,3 +1,4 @@
+import { useNavigation } from '@react-navigation/native';
 import React, {useState} from 'react';
 import {  StyleSheet, View, Text, ScrollView } from 'react-native';
 import CustomButton from '../components/CustomButton';
@@ -7,15 +8,16 @@ function ResetPasswordScreen(props) {
     const [code, setCode] = useState('');
     const [newPassword, setNewPassword] = useState('');
 
-    const onSubmitPressed = () =>{
-        console.warn("Submit");
-    };
+    const navigation = useNavigation();
 
-    const onBackToSignInPressed = () =>{
-        console.warn("Back to sign in");
+    const onSubmitPressed = () =>{
+        //validation for new password
+        navigation.navigate('Sign In');
     };
 
     return (
+        <View style={styles.root}>
+
         <View style={styles.container1}>
          
             <Text style={styles.text1}>Reset password</Text>
@@ -34,17 +36,20 @@ function ResetPasswordScreen(props) {
             />
 
             <CustomButton text="Submit" onPress={onSubmitPressed}/>
-
-            <CustomButton text="Back to Sign In." onPress={onBackToSignInPressed} type="TERTIARY"/>
             
          </View>
     
         </View>
 
+        </View>
     );
 }
 
 const styles = StyleSheet.create({
+    root:{
+        flex: 1,
+        backgroundColor: "#454545",
+    },
     container1: {
         flex: 1,
         alignItems: "center",

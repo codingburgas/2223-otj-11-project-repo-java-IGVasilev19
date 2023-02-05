@@ -1,13 +1,16 @@
+import { useNavigation } from '@react-navigation/native';
 import React, {useState} from 'react';
-import {  StyleSheet, View, Text, ScrollView } from 'react-native';
+import {  StyleSheet, View, Text} from 'react-native';
 import CustomButton from '../components/CustomButton';
 import CustomInput from '../components/CustomInput';
 
 function ConfirmEmailScreen(props) {
     const [code, setCode] = useState('');
 
+    const navigation = useNavigation();
+
     const onConfirmPressed = () =>{
-        console.warn("Confirm");
+        navigation.navigate('Home');
     };
 
     const onResendCodePressed = () =>{
@@ -15,10 +18,11 @@ function ConfirmEmailScreen(props) {
     };
 
     const onBackToSignInPressed = () =>{
-        console.warn("Back to sign in");
+        navigation.navigate('Sign In');
     };
 
     return (
+    <View style={styles.root}>
         <View style={styles.container1}>
          
             <Text style={styles.text1}>Confirm your email</Text>
@@ -42,10 +46,16 @@ function ConfirmEmailScreen(props) {
     
         </View>
 
+    </View>
+
     );
 }
 
 const styles = StyleSheet.create({
+    root:{
+        flex: 1,
+        backgroundColor: "#454545",
+    },
     container1: {
         flex: 1,
         alignItems: "center",
