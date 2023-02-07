@@ -62,7 +62,7 @@ function SignUpScreen(props) {
          
             <Text style={styles.text1}>Sign Up</Text>        
 
-            <ScrollView style={styles.container2} contentContainerStyle={{alignItems: "center", paddingTop: 80, paddingBottom: 80}} showsVerticalScrollIndicator={false}>
+            <ScrollView style={styles.container2} contentContainerStyle={{alignItems: "center", paddingBottom: 80}} showsVerticalScrollIndicator={false}>
 
             <Text style={styles.text2}>By registering, you confirm that you accept our <Text style={styles.link} onPress={onTermsOfUsePressed}>Terms of Use</Text> and <Text style={styles.link} onPress={onPrivacyPolicyPressed}>Privacy Policy</Text></Text>
 
