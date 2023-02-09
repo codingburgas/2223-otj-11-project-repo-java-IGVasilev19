@@ -15,7 +15,12 @@ public class User {
     private String username;
     private String email;
     private String password;
+    private String date_of_birth;
+    private String country;
+    private String city;
     private String address;
+    private String phone_num;
+    private String post_code;
 
 
 
@@ -76,5 +81,45 @@ public class User {
 
     public void setEmail(String email) {
         this.email = email;
+    }
+
+    public String getDate_of_birth() {
+        return date_of_birth;
+    }
+
+    public void setDate_of_birth(String date_of_birth) {
+        this.date_of_birth = date_of_birth;
+    }
+
+    public String getCountry() {
+        return country;
+    }
+
+    public void setCountry(String country) {
+        this.country = country;
+    }
+
+    public String getCity() {
+        return city;
+    }
+
+    public void setCity(String city) {
+        this.city = city;
+    }
+
+    public String getPhone_num() {
+        return phone_num;
+    }
+
+    public void setPhone_num(String phone_num) {
+        this.phone_num = phone_num;
+    }
+
+    public String getPost_code() {
+        return post_code;
+    }
+
+    public void setPost_code(String post_code) {
+        this.post_code = post_code;
     }
 }

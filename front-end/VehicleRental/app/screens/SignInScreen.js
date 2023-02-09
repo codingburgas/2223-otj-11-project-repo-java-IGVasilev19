@@ -7,13 +7,30 @@ import { useNavigation } from '@react-navigation/native';
 function SignInScreen(props) {
     const [username, setUsername] = useState('');
     const [password, setPassword] = useState('');
+    const [user, setUser]= useState('');
 
     const navigation = useNavigation();
 
-    const onSignInPressed = () =>{
-        //validate user
+    const  onSignInPressed = async () =>{
+        const res = await fetch("http://192.168.1.5:8080/user/getByUsername", {
+        method: "POST",
+        body: JSON.stringify({
+        username: username,
+        password: password,
+        }),
+        headers: { "Content-Type": "application/json" },
+        });
 
-        navigation.navigate('Home');
+        if (!res.ok) return console.warn("User doesn't exist!");;
+
+        const user = await res.json();
+
+        setUser(user);
+
+        if(username==user.username)
+        {
+            navigation.navigate('Home')
+        }
     };
 
     const onSignInWithFacebookPressed = () =>{

@@ -5,9 +5,9 @@ import CustomButton from '../components/CustomButton';
 import CustomInput from '../components/CustomInput';
 
 function SignUpScreen(props) {
-    const [FirstName, setFirstName] = useState('');
+    const [first_name, setFirstName] = useState('');
 
-    const [LastName, setLastName] = useState('');
+    const [last_name, setLastName] = useState('');
 
     const [email, setEmail] = useState('');
 
@@ -17,7 +17,7 @@ function SignUpScreen(props) {
 
     const [confirmPassword, setConfirmPassword] = useState('');
 
-    const [dateOfBirth, setDateOfBirth] = useState('');
+    const [date_of_birth, setDateOfBirth] = useState('');
 
     const [country, setCountry] = useState('');
 
@@ -25,9 +25,9 @@ function SignUpScreen(props) {
 
     const [address, setAddress] = useState('');
 
-    const [phoneNumber, setPhoneNumber] = useState('');
+    const [phone_num, setPhoneNumber] = useState('');
 
-    const [postCode, setPostCode] = useState('');
+    const [post_code, setPostCode] = useState('');
     
     const navigation = useNavigation();
 
@@ -44,6 +44,20 @@ function SignUpScreen(props) {
     };
 
     const onSignUpPressed = () =>{
+        const user = { first_name,last_name,username,email,password,date_of_birth,country,city,address,phone_num,post_code };
+        fetch('http://192.168.1.5:8080/user/add', {
+        method: 'POST',
+        headers: {
+        'Content-Type': 'application/json',
+           },
+           body: JSON.stringify(user),
+        })
+        .then(() => {
+        console.log('New user added');
+        })
+        .catch(error => console.error(error));
+
+
         navigation.navigate('Confirm email');
     };
 
@@ -70,14 +84,14 @@ function SignUpScreen(props) {
             <CustomInput 
             placeholder='FirstName'
             returnKeyType={"next"}
-            value={FirstName}
+            value={first_name}
             setValue={setFirstName}
             />
 
             <CustomInput 
             placeholder='LastName'
             returnKeyType={"next"}
-            value={LastName}
+            value={last_name}
             setValue={setLastName}
             /> 
             </View>
@@ -118,7 +132,7 @@ function SignUpScreen(props) {
             <CustomInput 
             placeholder='DateOfBirth'
             returnKeyType={"next"}
-            value={dateOfBirth}
+            value={date_of_birth}
             setValue={setDateOfBirth}
             />
 
@@ -150,7 +164,7 @@ function SignUpScreen(props) {
             placeholder='PhoneNumber'
             returnKeyType={"next"}
             keyboardType={"phone-pad"}
-            value={phoneNumber}
+            value={phone_num}
             setValue={setPhoneNumber}
             />
 
@@ -158,7 +172,7 @@ function SignUpScreen(props) {
             placeholder='PostCode'
             returnKeyType={"done"}
             keyboardType={"numeric"}
-            value={postCode}
+            value={post_code}
             setValue={setPostCode}
             />
             </View>
