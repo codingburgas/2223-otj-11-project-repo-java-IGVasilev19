@@ -5,31 +5,55 @@ import CustomInput from '../components/CustomInput';
 import { useNavigation } from '@react-navigation/native';
 
 function SignInScreen(props) {
-    const [username, setUsername] = useState('');
+    const [value, setValue] = useState('');
     const [password, setPassword] = useState('');
     const [user, setUser]= useState('');
 
     const navigation = useNavigation();
 
     const  onSignInPressed = async () =>{
-        const res = await fetch("http://192.168.1.5:8080/user/getByUsername", {
-        method: "POST",
-        body: JSON.stringify({
-        username: username,
-        password: password,
-        }),
-        headers: { "Content-Type": "application/json" },
-        });
-
-        if (!res.ok) return console.warn("User doesn't exist!");;
-
-        const user = await res.json();
-
-        setUser(user);
-
-        if(username==user.username)
+        if(value.includes("@")==true && value.includes(".com")==true)
         {
-            navigation.navigate('Home')
+            const res = await fetch("http://192.168.1.5:8080/user/getByEmail", {
+            method: "POST",
+            body: JSON.stringify({
+            email: value,
+            password: password,
+            }),
+            headers: { "Content-Type": "application/json" },
+            });
+
+            if (!res.ok) return console.warn("User doesn't exist!");;
+
+            const user = await res.json();
+
+            setUser(user);
+
+            if(value==user.email)
+            {
+                navigation.navigate('Home')
+            }
+        }
+        else{
+            const res = await fetch("http://192.168.1.5:8080/user/getByUsername", {
+            method: "POST",
+            body: JSON.stringify({
+            username: value,
+            password: password,
+            }),
+            headers: { "Content-Type": "application/json" },
+            });
+
+            if (!res.ok) return console.warn("User doesn't exist!");;
+
+            const user = await res.json();
+
+            setUser(user);
+
+            if(value==user.username)
+            {
+                navigation.navigate('Home')
+            }
         }
     };
 
@@ -64,10 +88,10 @@ function SignInScreen(props) {
 
             <View style={{paddingHorizontal: 12, left:2}}>
             <CustomInput 
-            placeholder='Username'
+            placeholder='Username\Email'
             fgColor="#FFFFFF"
-            value={username}
-            setValue={setUsername}
+            value={value}
+            setValue={setValue}
             />
 
             <CustomInput 
