@@ -44,21 +44,28 @@ function SignUpScreen(props) {
     };
 
     const onSignUpPressed = () =>{
-        const user = { first_name,last_name,username,email,password,date_of_birth,country,city,address,phone_num,post_code };
-        fetch('http://192.168.1.5:8080/user/add', {
-        method: 'POST',
-        headers: {
-        'Content-Type': 'application/json',
-           },
-           body: JSON.stringify(user),
-        })
-        .then(() => {
-        console.log('New user added');
-        })
-        .catch(error => console.error(error));
+        if(password==confirmPassword)
+        {
+            const user = { first_name,last_name,username,email,password,date_of_birth,country,city,address,phone_num,post_code };
+            fetch('http://192.168.1.5:8080/user/add', {
+            method: 'POST',
+            headers: {
+            'Content-Type': 'application/json',
+            },
+            body: JSON.stringify(user),
+            })
+            .then(() => {
+            console.log('New user added');
+            })
+            .catch(error => console.error(error));
 
-
-        navigation.navigate('Confirm email');
+            navigation.navigate('Confirm email');
+        }
+        else
+        {
+            console.warn("Passwords don't match!")
+        }
+        
     };
 
     const onTermsOfUsePressed = () =>{
