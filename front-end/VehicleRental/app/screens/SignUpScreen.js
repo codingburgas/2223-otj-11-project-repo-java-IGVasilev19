@@ -1,6 +1,6 @@
 import { useNavigation } from '@react-navigation/native';
 import React, {useState} from 'react';
-import {  StyleSheet, View, Text, ScrollView } from 'react-native';
+import {  StyleSheet, View, Text, ScrollView, ToastAndroid } from 'react-native';
 import CustomButton from '../components/CustomButton';
 import CustomInput from '../components/CustomInput';
 
@@ -43,21 +43,18 @@ function SignUpScreen(props) {
         console.warn("Sign in with Google");
     };
 
-    const onSignUpPressed = () =>{
+    const onSignUpPressed = async () =>{
         if(password==confirmPassword)
         {
             const user = { first_name,last_name,username,email,password,date_of_birth,country,city,address,phone_num,post_code };
-            fetch('http://192.168.1.5:8080/user/add', {
-            method: 'POST',
-            headers: {
-            'Content-Type': 'application/json',
-            },
-            body: JSON.stringify(user),
-            })
-            .then(() => {
-            console.log('New user added');
-            })
-            .catch(error => console.error(error));
+        
+            const res = await fetch("http://192.168.1.5:8080/user/add", {
+                method: "POST",
+                body: JSON.stringify(user),
+                headers: { "Content-Type": "application/json" },
+            });
+
+            if (!res.ok) return ToastAndroid.show("User already exist!", ToastAndroid.TOP);
 
             navigation.navigate('Confirm email');
         }
@@ -83,7 +80,7 @@ function SignUpScreen(props) {
          
             <Text style={styles.text1}>Sign Up</Text>        
 
-            <ScrollView style={styles.container2} contentContainerStyle={{alignItems: "center", paddingBottom: 80}} showsVerticalScrollIndicator={false}>
+            <ScrollView style={styles.container2} contentContainerStyle={{alignItems: "center"}} showsVerticalScrollIndicator={false}>
 
             <Text style={styles.text2}>By registering, you confirm that you accept our <Text style={styles.link} onPress={onTermsOfUsePressed}>Terms of Use</Text> and <Text style={styles.link} onPress={onPrivacyPolicyPressed}>Privacy Policy</Text></Text>
 
@@ -214,6 +211,8 @@ const styles = StyleSheet.create({
     root:{
         flex: 1,
         backgroundColor: "#454545",
+
+        paddingBottom: 100
     },
     container1: {
         flex: 1,
@@ -232,8 +231,7 @@ const styles = StyleSheet.create({
 
         paddingLeft: 20,
         paddingRight: 20,
-        paddingTop: 10,
-        paddingBottom: 10,
+        paddingBottom: 15
     },
     text1: {
         fontSize:35,

@@ -1,9 +1,6 @@
 package com.Project20222023.vehiclerental.model;
 
-import jakarta.persistence.Entity;
-import jakarta.persistence.GeneratedValue;
-import jakarta.persistence.GenerationType;
-import jakarta.persistence.Id;
+import jakarta.persistence.*;
 
 @Entity
 public class User {
@@ -12,7 +9,9 @@ public class User {
     private int id;
     private String first_name;
     private String last_name;
+    @Column(name="username",unique = true)
     private String username;
+    @Column(name="email",unique = true)
     private String email;
     private String password;
     private String date_of_birth;

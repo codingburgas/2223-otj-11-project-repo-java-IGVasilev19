@@ -20,9 +20,8 @@ public class UserController {
     private UserService userService;
 
     @PostMapping("/add")
-    public String add(@RequestBody User user){
-        userService.saveUser(user);
-        return "New user added successfully!";
+    public ResponseEntity<User> saveUser(@RequestBody User user){
+        return userService.saveUser(user);
     }
 
     @GetMapping("/getAll")

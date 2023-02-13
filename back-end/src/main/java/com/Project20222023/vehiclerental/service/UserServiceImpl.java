@@ -15,9 +15,12 @@ public class UserServiceImpl implements UserService{
     @Autowired
     private UserRepository userRepository;
     @Override
-    public User saveUser(User user) {
-
-        return userRepository.save(user);
+    public ResponseEntity<User> saveUser(User user) {
+        if(userRepository.findByEmailOrUsername(user.getEmail(), user.getUsername())!=null)
+        {
+           return new ResponseEntity<>(null, HttpStatus.NOT_FOUND);
+        }
+        return ResponseEntity.ok(userRepository.save(user));
     }
 
     @Override
@@ -43,4 +46,5 @@ public class UserServiceImpl implements UserService{
 
         return ResponseEntity.ok(userRepository.findByEmailAndPassword(email, password));
     }
+
 }

@@ -1,5 +1,5 @@
 import React, {useState} from 'react';
-import {  StyleSheet, View, Text, ScrollView } from 'react-native';
+import {  StyleSheet, View, Text, ToastAndroid } from 'react-native';
 import CustomButton from '../components/CustomButton';
 import CustomInput from '../components/CustomInput';
 import { useNavigation } from '@react-navigation/native';
@@ -23,7 +23,7 @@ function SignInScreen(props) {
             headers: { "Content-Type": "application/json" },
             });
 
-            if (!res.ok) return console.warn("User doesn't exist!");;
+            if (!res.ok) return ToastAndroid.show("User doesn't exist!", ToastAndroid.TOP);;
 
             const user = await res.json();
 
@@ -44,7 +44,7 @@ function SignInScreen(props) {
             headers: { "Content-Type": "application/json" },
             });
 
-            if (!res.ok) return console.warn("User doesn't exist!");;
+            if (!res.ok) return ToastAndroid.show("User doesn't exist!", ToastAndroid.TOP);;
 
             const user = await res.json();
 
