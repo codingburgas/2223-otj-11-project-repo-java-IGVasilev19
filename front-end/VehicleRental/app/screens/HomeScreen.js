@@ -1,10 +1,13 @@
-import { View, Text, StyleSheet } from 'react-native'
+import { View, Text, StyleSheet, Image} from 'react-native'
 import React from 'react'
 
 const HomeScreen = () => {
   return (
     <View style={styles.root}>
-      <Text style={styles.text}>Finally back home</Text>
+    <View style={styles.container}>
+      <Text style={styles.text}>ITravelPrivate</Text>
+      <Image style={styles.avatar} source={require('../assets/images/user.png') }/>
+    </View>
     </View>
   )
 }
@@ -14,12 +17,22 @@ const styles = StyleSheet.create({
     flex: 1,
     backgroundColor: "#454545",
   },
+  container: {
+    flexDirection: 'row',
+    top:50,
+    justifyContent: 'space-between',
+  },
   text: {
-    fontSize: 35,
-    color: "white", 
-    textAlign: 'center',
-    top:70,
+    top: 5,
+    fontSize: 30,
+    fontWeight:"bold",
+    color: "white",
+    marginLeft: 20
+  },
+  avatar: {
+    height:50,
+    width:50,
+    marginRight: 20
   },
 })
-
 export default HomeScreen
