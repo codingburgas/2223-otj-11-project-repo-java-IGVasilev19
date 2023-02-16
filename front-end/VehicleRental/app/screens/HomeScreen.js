@@ -1,14 +1,17 @@
-import { View, Text, StyleSheet, Image} from 'react-native'
+import { View, Text, StyleSheet, Image, Pressable} from 'react-native'
+import { Avatar, Box } from "native-base";
 import React from 'react'
 
 const HomeScreen = () => {
   return (
-    <View style={styles.root}>
+    <Box style={styles.root}>
     <View style={styles.container}>
       <Text style={styles.text}>ITravelPrivate</Text>
-      <Image style={styles.avatar} source={require('../assets/images/user.png') }/>
+      <Pressable>
+      <Avatar style={styles.avatar} source={require('../assets/images/user.png')}/>
+      </Pressable>
     </View>
-    </View>
+    </Box>
   )
 }
 
@@ -19,7 +22,7 @@ const styles = StyleSheet.create({
   },
   container: {
     flexDirection: 'row',
-    top:50,
+    top:60,
     justifyContent: 'space-between',
   },
   text: {

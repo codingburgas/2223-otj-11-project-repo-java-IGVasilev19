@@ -2,7 +2,6 @@ import { useNavigation } from '@react-navigation/native';
 import React, {useState} from 'react';
 import {  StyleSheet, View, Text, ScrollView } from 'react-native';
 import CustomButton from '../components/CustomButton';
-import CustomInput from '../components/CustomInput';
 
 function ResetPasswordScreen(props) {
     const [code, setCode] = useState('');

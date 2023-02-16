@@ -1,14 +1,17 @@
 import React, {useState} from 'react';
-import {  StyleSheet, View, Text, ToastAndroid } from 'react-native';
+import { useToast, Box, Input,Stack, Icon, Pressable } from 'native-base';
+import { MaterialIcons } from "@expo/vector-icons";
+import {  StyleSheet, Text } from 'react-native';
 import CustomButton from '../components/CustomButton';
-import CustomInput from '../components/CustomInput';
 import { useNavigation } from '@react-navigation/native';
 
 function SignInScreen(props) {
     const [value, setValue] = useState('');
     const [password, setPassword] = useState('');
     const [user, setUser]= useState('');
-
+    const notify = useToast();
+    const [show, setShow] = React.useState(false);
+    const id="notify";
     const navigation = useNavigation();
 
     const  onSignInPressed = async () =>{
@@ -23,7 +26,11 @@ function SignInScreen(props) {
             headers: { "Content-Type": "application/json" },
             });
 
-            if (!res.ok) return ToastAndroid.show("User doesn't exist!", ToastAndroid.TOP);;
+            if (!res.ok){
+                if(!notify.isActive(id)){
+                    return notify.show({id, title: "User doesn't exist", avoidKeyboard:true, duration: 3000, buttonStyle: { backgroundColor: "#5cb85c" }});;
+                }
+            } 
 
             const user = await res.json();
 
@@ -44,7 +51,11 @@ function SignInScreen(props) {
             headers: { "Content-Type": "application/json" },
             });
 
-            if (!res.ok) return ToastAndroid.show("User doesn't exist!", ToastAndroid.TOP);;
+            if (!res.ok){
+                if(!notify.isActive(id)){
+                    return notify.show({id, title: "User doesn't exist", avoidKeyboard:true, duration: 3000});;
+                }
+            }
 
             const user = await res.json();
 
@@ -74,9 +85,9 @@ function SignInScreen(props) {
     };
 
     return (
-        <View style={styles.root}>
+        <Box style={styles.root}>
 
-        <View style={styles.container1}>
+        <Box style={styles.container1}>
 
             <Text style={styles.text1}>Welcome to "I Travel Private"</Text>
 
@@ -84,26 +95,36 @@ function SignInScreen(props) {
 
          
 
-            <View style={styles.container2}> 
+            <Box style={styles.container2}> 
 
-            <View style={{paddingHorizontal: 12, left:2}}>
-            <CustomInput 
+            <Box style={{paddingHorizontal: 12, left:2, marginVertical: 10}}>
+            <Input 
             placeholder='Username\Email'
-            fgColor="#FFFFFF"
+            w={"90%"}
+            left={2.5}
             value={value}
             setValue={setValue}
+            placeholderTextColor="white"
             />
 
-            <CustomInput 
-            placeholder='Password'
-            fgColor="#FFFFFF"
+            <Input 
+            color={"white"}
+            left={2.5}
             value={password}
-            setValue={setPassword}
-            secureTextEntry={true}
+            onChangeText={setPassword}
+            placeholder={"Password"}
+            keyboardType={"password"}
+            returnKeyType={"done"}
+            placeholderTextColor="white"
+            w={"90%"} 
+            type={show ? "text" : "password"} InputRightElement={<Pressable onPress={() => setShow(!show)}>
+            <Icon as={<MaterialIcons name={show ? "visibility-off" : "visibility"} />} size={5} mr="2" color="muted.400" />
+            </Pressable>}   
             />
-            </View>
 
-            <View style={{paddingLeft: 25}}>
+            </Box>
+
+            <Box style={{paddingLeft: 25}}>
             <CustomButton text="Sign In" onPress={onSignInPressed}/>
 
             <CustomButton 
@@ -123,13 +144,13 @@ function SignInScreen(props) {
             <CustomButton text="Forgot password?" onPress={onForgotPasswordPressed} type="TERTIARY"/>
 
             <CustomButton text="Don't have an account? Sign Up." onPress={onSignUpPressed} type="TERTIARY"/>
-            </View>
+            </Box>
 
-            </View>
+            </Box>
 
-        </View>
+        </Box>
 
-        </View>
+        </Box>
     );
 }
 
@@ -163,7 +184,7 @@ const styles = StyleSheet.create({
     text2: {
         fontSize:14,
         color: "white",
-    }
+    },
 })
 
 export default SignInScreen;
