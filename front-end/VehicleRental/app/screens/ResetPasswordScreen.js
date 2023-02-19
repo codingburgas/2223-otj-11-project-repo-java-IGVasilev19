@@ -1,12 +1,13 @@
 import { useNavigation } from '@react-navigation/native';
 import React, {useState} from 'react';
-import {  StyleSheet, View, Text, ScrollView } from 'react-native';
-import CustomButton from '../components/CustomButton';
+import { Input, VStack, Box, Button, Pressable, Icon } from "native-base"
+import { MaterialIcons } from "@expo/vector-icons";
+import {  StyleSheet, Text } from 'react-native';
 
 function ResetPasswordScreen(props) {
     const [code, setCode] = useState('');
     const [newPassword, setNewPassword] = useState('');
-
+    const [show, setShow] = useState(false);
     const navigation = useNavigation();
 
     const onSubmitPressed = () =>{
@@ -15,32 +16,41 @@ function ResetPasswordScreen(props) {
     };
 
     return (
-        <View style={styles.root}>
+        <Box style={styles.root}>
 
-        <View style={styles.container1}>
+        <VStack style={styles.container1}>
          
             <Text style={styles.text1}>Reset password</Text>
 
-         <View style={styles.container2}>
-            <CustomInput 
+         <VStack style={styles.container2} space={2} top={2}>
+            <Input 
             placeholder='Code'
+            placeholderTextColor="white"
             value={code}
             setValue={setCode}
             />
 
-            <CustomInput 
-            placeholder='Enter new password'
+            <Input 
+            color={"white"}
             value={newPassword}
-            setValue={setNewPassword}
+            onChangeText={setNewPassword}
+            placeholder={"Enter new password"}
+            keyboardType={"password"}
+            returnKeyType={"done"}
+            placeholderTextColor="white"
+            type={show ? "text" : "password"} InputRightElement={<Pressable onPress={() => setShow(!show)}>
+            <Icon as={<MaterialIcons name={show ? "visibility-off" : "visibility"} />} size={5} mr="2" color="muted.400" />
+            </Pressable>}   
             />
 
-            <CustomButton text="Submit" onPress={onSubmitPressed}/>
-            
-         </View>
-    
-        </View>
+            <Button w="100%" onPress={onSubmitPressed} bgColor="darkBlue.600">Submit</Button>
 
-        </View>
+            </VStack>
+            
+         </VStack>
+    
+        </Box>
+
     );
 }
 
@@ -68,21 +78,14 @@ const styles = StyleSheet.create({
 
         paddingLeft: 20,
         paddingRight: 20,
-        paddingTop: 10,
-        paddingBottom: 10,
+        paddingTop: 20,
+        paddingBottom: 20,
     },
     text1: {
         fontSize:35,
         color: "white",
         fontWeight: "bold"
     },
-    text2: {
-        color: "grey",
-        marginVertical: 10,
-    },
-    link: {
-        color: "#3B71F3",
-    }
 })
 
 export default ResetPasswordScreen;

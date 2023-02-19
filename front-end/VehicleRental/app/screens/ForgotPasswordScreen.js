@@ -1,10 +1,10 @@
 import { useNavigation } from '@react-navigation/native';
 import React, {useState} from 'react';
-import {  StyleSheet, View, Text, ScrollView } from 'react-native';
-import CustomButton from '../components/CustomButton';
+import { Input, VStack, Box, Button } from "native-base"
+import {  StyleSheet, Text } from 'react-native';
 
 function ForgotPasswordScreen(props) {
-    const [username, setUsername] = useState('');
+    const [value, setValue] = useState('');
 
     const navigation = useNavigation();
 
@@ -17,29 +17,25 @@ function ForgotPasswordScreen(props) {
     };
 
     return (
-        <View style={styles.root}>
+        <Box style={styles.root}>
 
-        <View style={styles.container1}>
+        <VStack style={styles.container1}>
          
             <Text style={styles.text1}>Forgot password</Text>
 
-         <View style={styles.container2}>
-            <CustomInput 
-            placeholder='Username'
-            value={username}
-            setValue={setUsername}
-            />
+         <VStack style={styles.container2} space={2}>
+            <Input placeholder='Username\Email' placeholderTextColor="white" color="white" value={value} onChangeText={setValue}/>
 
-            <CustomButton text="Send" onPress={onSendPressed}/>
+            <Button w="100%" onPress={onSendPressed} bgColor="darkBlue.600">Send</Button>
 
-            <CustomButton text="Back to Sign In." onPress={onBackToSignInPressed} type="TERTIARY"/>
+            <Button onPress={onBackToSignInPressed} _text={{color:"trueGray.500"}} variant="link">Back to Sign In.</Button>
             
-         </View>
+         </VStack>
     
-        </View>
+        </VStack>
 
 
-        </View>
+        </Box>
     );
 }
 
@@ -67,7 +63,7 @@ const styles = StyleSheet.create({
 
         paddingLeft: 20,
         paddingRight: 20,
-        paddingTop: 10,
+        paddingTop: 20,
         paddingBottom: 10,
     },
     text1: {

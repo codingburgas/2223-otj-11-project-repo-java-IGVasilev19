@@ -1,7 +1,7 @@
 import { useNavigation } from '@react-navigation/native';
 import React, {useState} from 'react';
-import {  StyleSheet, View, Text} from 'react-native';
-import CustomButton from '../components/CustomButton';
+import { Input, VStack, Box, HStack, Button } from "native-base"
+import {  StyleSheet, Text} from 'react-native';
 
 function ConfirmEmailScreen(props) {
     const [code, setCode] = useState('');
@@ -21,31 +21,31 @@ function ConfirmEmailScreen(props) {
     };
 
     return (
-    <View style={styles.root}>
-        <View style={styles.container1}>
+    <Box style={styles.root}>
+        <Box style={styles.container1}>
          
             <Text style={styles.text1}>Confirm your email</Text>
 
-         <View style={styles.container2}>
-            <CustomInput 
+         <VStack style={styles.container2} space={2}>
+            <Input 
             placeholder='Enter your confirmation code'
             value={code}
-            setValue={setCode}
+            onChangeText={setCode}
             />
 
-            <CustomButton text="Confirm" onPress={onConfirmPressed}/>
+            <Button w="100%" onPress={onConfirmPressed} bgColor="darkBlue.600">Confirm</Button>
             
-          <View style={{flexDirection: 'row', width: "60%", right: 70}}>
-            <CustomButton text="Resend code" onPress={onResendCodePressed} type="TERTIARY"/>
+          <HStack space={2}>
+            <Button onPress={onResendCodePressed} _text={{color:"trueGray.500"}} variant="link">Resend code</Button>
 
-            <CustomButton text="Back to Sign In." onPress={onBackToSignInPressed} type="TERTIARY"/>
-          </View>
+            <Button onPress={onBackToSignInPressed} _text={{color:"trueGray.500"}} variant="link">Back to Sign In</Button>
+          </HStack>
             
-         </View>
+         </VStack>
     
-        </View>
+        </Box>
 
-    </View>
+    </Box>
 
     );
 }
@@ -74,7 +74,7 @@ const styles = StyleSheet.create({
 
         paddingLeft: 20,
         paddingRight: 20,
-        paddingTop: 10,
+        paddingTop: 20,
         paddingBottom: 10,
     },
     text1: {

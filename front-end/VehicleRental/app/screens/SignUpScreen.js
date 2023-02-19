@@ -1,8 +1,8 @@
 import { useNavigation } from '@react-navigation/native';
 import React, {useState} from 'react';
-import { Input } from "native-base"
-import {  StyleSheet, View, Text, ScrollView} from 'react-native';
-import CustomButton from '../components/CustomButton';
+import { Input, Pressable, Icon, VStack, HStack, Box, Button } from "native-base"
+import { MaterialIcons } from "@expo/vector-icons";
+import {  StyleSheet, Text, ScrollView} from 'react-native';
 
 function SignUpScreen(props) {
     const [first_name, setFirstName] = useState('');
@@ -30,6 +30,8 @@ function SignUpScreen(props) {
     const [post_code, setPostCode] = useState('');
     
     const navigation = useNavigation();
+
+    const [show, setShow] = React.useState(false);
 
     const onSignInPressed = () =>{
         navigation.navigate('Sign In');
@@ -74,136 +76,159 @@ function SignUpScreen(props) {
     };
 
     return (
-        <View style={styles.root}>
+        <Box style={styles.root}>
 
-        <View style={styles.container1}>
+        <VStack style={styles.container1}>
          
             <Text style={styles.text1}>Sign Up</Text>        
 
-            <ScrollView style={styles.container2} contentContainerStyle={{alignItems: "center"}} showsVerticalScrollIndicator={false}>
+            <ScrollView style={styles.container2} showsVerticalScrollIndicator={false}>
+
+            <VStack space={2}  alignItems={"center"} paddingTop={3} paddingBottom={7}>
 
             <Text style={styles.text2}>By registering, you confirm that you accept our <Text style={styles.link} onPress={onTermsOfUsePressed}>Terms of Use</Text> and <Text style={styles.link} onPress={onPrivacyPolicyPressed}>Privacy Policy</Text></Text>
 
-            <View style={{flexDirection: 'row', width: "45%", right: 70}}>
-            <CustomInput 
-            placeholder='FirstName'
-            returnKeyType={"next"}
+            <HStack space={2}>
+            <Input 
+            placeholder='Firstname'
+            w={"41%"}
+            color={"white"}
             value={first_name}
-            setValue={setFirstName}
+            onChangeText={setFirstName}
+            placeholderTextColor="white"
             />
 
-            <CustomInput 
-            placeholder='LastName'
-            returnKeyType={"next"}
+            <Input 
+            placeholder='Lastname'
+            w={"41%"}
+            color={"white"}
             value={last_name}
-            setValue={setLastName}
-            /> 
-            </View>
+            onChangeText={setLastName}
+            placeholderTextColor="white"
+            />
+            </HStack>
 
-            <CustomInput 
+            <Input 
             placeholder='Username'
-            returnKeyType={"next"}
+            w={"85%"}
+            color={"white"}
             value={username}
-            setValue={setUsername}
+            onChangeText={setUsername}
+            placeholderTextColor="white"
             />
 
-            <CustomInput 
+            <Input 
             placeholder='Email'
-            returnKeyType={"next"}
-            keyboardType={"email-address"}
+            color={"white"}
+            w={"85%"}
             value={email}
-            setValue={setEmail}
+            onChangeText={setEmail}
+            placeholderTextColor="white"
             />
 
-            <CustomInput 
-            placeholder='Password'
-            returnKeyType={"next"}
-            keyboardType={"password"}
+            <Input 
+            color={"white"}
             value={password}
-            setValue={setPassword}
-            secureTextEntry={true}
-            />
-
-            <CustomInput 
-            placeholder='ConfirmPasssword'
-            returnKeyType={"next"}
+            onChangeText={setPassword}
+            placeholder={"Password"}
             keyboardType={"password"}
-            value={confirmPassword}
-            setValue={setConfirmPassword}
-            secureTextEntry={true}
-            />
-
-            <CustomInput 
-            placeholder='DateOfBirth'
-            returnKeyType={"next"}
-            value={date_of_birth}
-            setValue={setDateOfBirth}
-            />
-
-            <View style={{flexDirection: 'row', width: "45%", right: 70}}>
-            <CustomInput 
-            placeholder='Country'
-            returnKeyType={"next"}
-            value={country}
-            setValue={setCountry}
-            />
-
-            <CustomInput 
-            placeholder='City'
-            returnKeyType={"next"}
-            value={city}
-            setValue={setCity}
-            />
-            </View>
-
-            <CustomInput 
-            placeholder='Address'
-            returnKeyType={"next"}
-            value={address}
-            setValue={setAddress}
-            />
-
-            <View style={{flexDirection: 'row', width: "45%", right: 70}}>
-            <CustomInput 
-            placeholder='PhoneNumber'
-            returnKeyType={"next"}
-            keyboardType={"phone-pad"}
-            value={phone_num}
-            setValue={setPhoneNumber}
-            />
-
-            <CustomInput
-            placeholder='PostCode'
             returnKeyType={"done"}
-            keyboardType={"numeric"}
+            placeholderTextColor="white"
+            w={"85%"} 
+            type={show ? "text" : "password"} InputRightElement={<Pressable onPress={() => setShow(!show)}>
+            <Icon as={<MaterialIcons name={show ? "visibility-off" : "visibility"} />} size={5} mr="2" color="muted.400" />
+            </Pressable>}   
+            />
+
+            <Input 
+            color={"white"}
+            value={confirmPassword}
+            onChangeText={setConfirmPassword}
+            placeholder={"Password"}
+            keyboardType={"password"}
+            returnKeyType={"done"}
+            placeholderTextColor="white"
+            w={"85%"} 
+            type={show ? "text" : "password"} InputRightElement={<Pressable onPress={() => setShow(!show)}>
+            <Icon as={<MaterialIcons name={show ? "visibility-off" : "visibility"} />} size={5} mr="2" color="muted.400" />
+            </Pressable>}   
+            />
+
+            <Input 
+            placeholder='DateOfBirth'
+            color={"white"}
+            w={"85%"}
+            value={date_of_birth}
+            onChangeText={setDateOfBirth}
+            placeholderTextColor="white"
+            />
+
+            <HStack space={2}>
+            <Input 
+            placeholder='Country'
+            color={"white"}
+            w={"41%"}
+            value={country}
+            onChangeText={setCountry}
+            placeholderTextColor="white"
+            />
+
+            <Input 
+            placeholder='City'
+            color={"white"}
+            w={"41%"}
+            value={city}
+            onChangeText={setCity}
+            placeholderTextColor="white"
+            />
+            </HStack>
+
+            <Input 
+            placeholder='Address'
+            color={"white"}
+            w={"85%"}
+            value={address}
+            onChangeText={setAddress}
+            placeholderTextColor="white"
+            />
+
+            <HStack space={2}>
+            <Input 
+            color={"white"}
+            placeholder='PhoneNumber'
+            w={"41%"}
+            value={phone_num}
+            onChangeText={setPhoneNumber}
+            keyboardType={"phone-pad"}
+            placeholderTextColor="white"
+            />
+
+            <Input 
+            color={"white"}
+            placeholder='PostCode'
+            w={"41%"}
             value={post_code}
-            setValue={setPostCode}
+            onChangeText={setPostCode}
+            keyboardType={"numeric"}
+            placeholderTextColor="white"
             />
-            </View>
+            
+            </HStack>
 
-            <CustomButton text="Sign Up" onPress={onSignUpPressed}/>
+            <Button w="85%" onPress={onSignUpPressed} bgColor="darkBlue.600">Sign Up</Button>
 
-            <CustomButton 
-            text="Sign up with Facebook" 
-            onPress={onSignUpWithFacebookPressed}
-            bgColor="#E7EAF4"
-            fgColor="#4765A9"
-            />
+            <Button w="85%" onPress={onSignUpWithFacebookPressed} bgColor="blue.100" _text={{color:"blue.500"}}>Sign in with Facebook</Button>
 
-            <CustomButton 
-            text="Sign up with Google"
-            onPress={onSignUpWithGooglePressed}
-            bgColor="#FAE9EA"
-            fgColor="#DD4D44"
-            />
+            <Button w="85%" onPress={onSignUpWithGooglePressed} bgColor="red.200" _text={{color:"red.400"}}>Sign in with Google</Button>
 
-            <CustomButton text="Already have an account? Sign In." onPress={onSignInPressed} type="TERTIARY"/>
+            <Button w="85%" onPress={onSignInPressed} _text={{color:"trueGray.500"}} variant="link">Already have an account? Sign In.</Button>
+            </VStack>
 
             </ScrollView>
     
-        </View>
+        </VStack>
 
-        </View>
+        </Box>
     );
 }
 
@@ -211,7 +236,6 @@ const styles = StyleSheet.create({
     root:{
         flex: 1,
         backgroundColor: "#454545",
-
         paddingBottom: 100
     },
     container1: {
@@ -228,10 +252,6 @@ const styles = StyleSheet.create({
         borderColor: "#363636",
         borderWidth: 1,
         borderRadius: 5,
-
-        paddingLeft: 20,
-        paddingRight: 20,
-        paddingBottom: 15
     },
     text1: {
         fontSize:35,
@@ -241,6 +261,8 @@ const styles = StyleSheet.create({
     text2: {
         color: "grey",
         marginVertical: 10,
+        width:"85%",
+        left:10
     },
     link: {
         color: "#3B71F3",

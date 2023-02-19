@@ -1,8 +1,7 @@
 import React, {useState} from 'react';
-import { useToast, Box, Input,Stack, Icon, Pressable } from 'native-base';
+import { useToast, Box, Input,VStack, Icon, Pressable, Button } from 'native-base';
 import { MaterialIcons } from "@expo/vector-icons";
 import {  StyleSheet, Text } from 'react-native';
-import CustomButton from '../components/CustomButton';
 import { useNavigation } from '@react-navigation/native';
 
 function SignInScreen(props) {
@@ -10,60 +9,69 @@ function SignInScreen(props) {
     const [password, setPassword] = useState('');
     const [user, setUser]= useState('');
     const notify = useToast();
-    const [show, setShow] = React.useState(false);
+    const [show, setShow] = useState(false);
     const id="notify";
     const navigation = useNavigation();
 
     const  onSignInPressed = async () =>{
-        if(value.includes("@")==true && value.includes(".com")==true)
+        if(!value=="" && !password=="")
         {
-            const res = await fetch("http://192.168.1.5:8080/user/getByEmail", {
-            method: "POST",
-            body: JSON.stringify({
-            email: value,
-            password: password,
-            }),
-            headers: { "Content-Type": "application/json" },
-            });
-
-            if (!res.ok){
-                if(!notify.isActive(id)){
-                    return notify.show({id, title: "User doesn't exist", avoidKeyboard:true, duration: 3000, buttonStyle: { backgroundColor: "#5cb85c" }});;
-                }
-            } 
-
-            const user = await res.json();
-
-            setUser(user);
-
-            if(value==user.email)
+                if(value.includes("@")==true && value.includes(".com")==true)
             {
-                navigation.navigate('Home')
+                const res = await fetch("http://192.168.1.5:8080/user/getByEmail", {
+                method: "POST",
+                body: JSON.stringify({
+                email: value,
+                password: password,
+                }),
+                headers: { "Content-Type": "application/json" },
+                });
+
+                if (!res.ok){
+                    if(!notify.isActive(id)){
+                        return notify.show({id, title: "User with this email or password doesn't exist", avoidKeyboard:true, duration: 3000, buttonStyle: { backgroundColor: "#5cb85c" }});;
+                    }
+                } 
+
+                const user = await res.json();
+
+                setUser(user);
+
+                if(value==user.email)
+                {
+                    navigation.navigate('Home')
+                }
+            }
+            else{
+                const res = await fetch("http://192.168.1.5:8080/user/getByUsername", {
+                method: "POST",
+                body: JSON.stringify({
+                username: value,
+                password: password,
+                }),
+                headers: { "Content-Type": "application/json" },
+                });
+
+                if (!res.ok){
+                    if(!notify.isActive(id)){
+                        return notify.show({id, title: "User with this username or password doesn't exist", avoidKeyboard:true, duration: 3000});;
+                    }
+                }
+
+                const user = await res.json();
+
+                setUser(user);
+
+                if(value==user.username)
+                {
+                    navigation.navigate('Home')
+                }
             }
         }
-        else{
-            const res = await fetch("http://192.168.1.5:8080/user/getByUsername", {
-            method: "POST",
-            body: JSON.stringify({
-            username: value,
-            password: password,
-            }),
-            headers: { "Content-Type": "application/json" },
-            });
-
-            if (!res.ok){
-                if(!notify.isActive(id)){
-                    return notify.show({id, title: "User doesn't exist", avoidKeyboard:true, duration: 3000});;
-                }
-            }
-
-            const user = await res.json();
-
-            setUser(user);
-
-            if(value==user.username)
-            {
-                navigation.navigate('Home')
+        else
+        {
+            if(!notify.isActive(id)){
+            return notify.show({id, title: "Please input your username and/or password!", avoidKeyboard:true, duration: 3000});
             }
         }
     };
@@ -97,54 +105,42 @@ function SignInScreen(props) {
 
             <Box style={styles.container2}> 
 
-            <Box style={{paddingHorizontal: 12, left:2, marginVertical: 10}}>
+            <VStack alignItems={"center"} space={3}>
             <Input 
             placeholder='Username\Email'
-            w={"90%"}
-            left={2.5}
+            selectionColor="white"
+            color={"white"}
+            w={"85%"}
             value={value}
-            setValue={setValue}
+            onChangeText={setValue}
             placeholderTextColor="white"
             />
 
             <Input 
             color={"white"}
-            left={2.5}
             value={password}
             onChangeText={setPassword}
             placeholder={"Password"}
             keyboardType={"password"}
             returnKeyType={"done"}
             placeholderTextColor="white"
-            w={"90%"} 
+            w={"85%"} 
             type={show ? "text" : "password"} InputRightElement={<Pressable onPress={() => setShow(!show)}>
             <Icon as={<MaterialIcons name={show ? "visibility-off" : "visibility"} />} size={5} mr="2" color="muted.400" />
             </Pressable>}   
             />
 
-            </Box>
+           
+            <Button w="85%" onPress={onSignInPressed} bgColor="darkBlue.600">Sign In</Button>
 
-            <Box style={{paddingLeft: 25}}>
-            <CustomButton text="Sign In" onPress={onSignInPressed}/>
+            <Button w="85%" onPress={onSignInWithFacebookPressed} bgColor="blue.100" _text={{color:"blue.500"}}>Sign in with Facebook</Button>
 
-            <CustomButton 
-            text="Sign in with Facebook" 
-            onPress={onSignInWithFacebookPressed}
-            bgColor="#E7EAF4"
-            fgColor="#4765A9"
-            />
-
-            <CustomButton 
-            text="Sign in with Google"
-            onPress={onSignInWithGooglePressed}
-            bgColor="#FAE9EA"
-            fgColor="#DD4D44"
-            />
+            <Button w="85%" onPress={onSignInWithGooglePressed} bgColor="red.200" _text={{color:"red.400"}}>Sign in with Google</Button>
             
-            <CustomButton text="Forgot password?" onPress={onForgotPasswordPressed} type="TERTIARY"/>
+            <Button w="85%" onPress={onForgotPasswordPressed} _text={{color:"trueGray.500"}} variant="link">Forgot password?</Button>
 
-            <CustomButton text="Don't have an account? Sign Up." onPress={onSignUpPressed} type="TERTIARY"/>
-            </Box>
+            <Button w="85%" onPress={onSignUpPressed} _text={{color:"trueGray.500"}} variant="link">Don't have an account? Sign Up</Button>
+            </VStack>
 
             </Box>
 
@@ -173,8 +169,8 @@ const styles = StyleSheet.create({
         borderWidth: 1,
         borderRadius: 5,
 
-        paddingTop: 10,
-        paddingBottom: 10,
+        paddingTop: 20,
+        paddingBottom:20
     },
     text1: {
         fontSize:28,
