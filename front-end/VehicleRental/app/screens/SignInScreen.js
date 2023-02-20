@@ -1,5 +1,5 @@
 import React, {useState} from 'react';
-import { useToast, Box, Input,VStack, Icon, Pressable, Button } from 'native-base';
+import { useToast, Box, Input,VStack, Icon, Pressable, Button, FormControl, WarningOutlineIcon } from 'native-base';
 import { MaterialIcons } from "@expo/vector-icons";
 import {  StyleSheet, Text } from 'react-native';
 import { useNavigation } from '@react-navigation/native';
@@ -129,7 +129,6 @@ function SignInScreen(props) {
             <Icon as={<MaterialIcons name={show ? "visibility-off" : "visibility"} />} size={5} mr="2" color="muted.400" />
             </Pressable>}   
             />
-
            
             <Button w="85%" onPress={onSignInPressed} bgColor="darkBlue.600">Sign In</Button>
 
