@@ -1,43 +1,56 @@
-import { Text, StyleSheet} from 'react-native'
+import { Text, StyleSheet, Dimensions } from "react-native";
 import { HamburgerIcon, Box, HStack, Menu, Pressable } from "native-base";
-import { FontAwesome } from '@expo/vector-icons';
-import React from 'react'
+import { FontAwesome } from "@expo/vector-icons";
+import React from "react";
+import { useNavigation } from "@react-navigation/native";
 
 const HomeScreen = () => {
+  const screenDimensions = Dimensions.get("screen");
+  const navigation = useNavigation();
+
+  const onAccountPressed = () => {
+    navigation.navigate("Account");
+  };
+
   return (
     <Box style={styles.root}>
-      <HStack top={20} space={115} alignItems="center" justifyContent="center">
-        <Text style={{fontSize: 30,fontWeight:"bold",color: "white"}}>ITravelPrivate</Text>
-        {/* <Box>
-        <Menu w="190" trigger={triggerProps => { return <Pressable accessibilityLabel="More options menu" {...triggerProps}> <FontAwesome name="user-circle" size={45} color="#BDC3C7" backgroundColor="#A6ACAF"/></Pressable>;}}>
-        <Menu.Item>Account</Menu.Item>
-        <Menu.Item>Sign out</Menu.Item>
-      </Menu>
-      </Box> */}
-      
+      <HStack top={12} space={115} alignItems="center" justifyContent="center">
+        <Text style={{ fontSize: 30, fontWeight: "bold", color: "white" }}>
+          ITravelPrivate
+        </Text>
+
+        <Menu
+          style={{ backgroundColor: "#363636" }}
+          top={10}
+          w="105"
+          placement={"bottom right"}
+          trigger={(triggerProps) => {
+            return (
+              <Pressable
+                accessibilityLabel="More options menu"
+                {...triggerProps}
+              >
+                <FontAwesome name="user-circle" size={33} color="white" />
+              </Pressable>
+            );
+          }}
+        >
+          <Menu.Item onPress={onAccountPressed}>
+            <Text style={{ color: "white" }}>Account</Text>
+          </Menu.Item>
+          <Menu.Item>
+            <Text style={{ color: "white" }}>Sign out</Text>
+          </Menu.Item>
+        </Menu>
       </HStack>
-      <Menu shadow={2} w="190" trigger={triggerProps => {
-      return <Pressable accessibilityLabel="More options menu" {...triggerProps}>
-              <HamburgerIcon />
-            </Pressable>;
-    }}>
-        <Menu.Item>Arial</Menu.Item>
-        <Menu.Item>Nunito Sans</Menu.Item>
-        <Menu.Item>Roboto</Menu.Item>
-        <Menu.Item>Poppins</Menu.Item>
-        <Menu.Item>SF Pro</Menu.Item>
-        <Menu.Item>Helvetica</Menu.Item>
-        <Menu.Item isDisabled>Sofia</Menu.Item>
-        <Menu.Item>Cookie</Menu.Item>
-      </Menu>
     </Box>
-  )
-}
+  );
+};
 
 const styles = StyleSheet.create({
-  root:{
+  root: {
     flex: 1,
     backgroundColor: "#454545",
   },
-})
-export default HomeScreen
+});
+export default HomeScreen;
