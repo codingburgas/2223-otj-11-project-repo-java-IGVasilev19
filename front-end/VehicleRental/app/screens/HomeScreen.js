@@ -1,8 +1,9 @@
 import { Text, StyleSheet, Dimensions } from "react-native";
-import { HamburgerIcon, Box, HStack, Menu, Pressable } from "native-base";
+import { StatusBar, Box, HStack, Menu, Pressable, VStack } from "native-base";
 import { FontAwesome } from "@expo/vector-icons";
 import React from "react";
 import { useNavigation } from "@react-navigation/native";
+import Tabs from "../components/Tabs";
 
 const HomeScreen = () => {
   const screenDimensions = Dimensions.get("screen");
@@ -30,7 +31,7 @@ const HomeScreen = () => {
                 accessibilityLabel="More options menu"
                 {...triggerProps}
               >
-                <FontAwesome name="user-circle" size={33} color="white" />
+                <FontAwesome name="user-circle" size={33} color="#363636" />
               </Pressable>
             );
           }}
@@ -43,6 +44,7 @@ const HomeScreen = () => {
           </Menu.Item>
         </Menu>
       </HStack>
+      <Tabs />
     </Box>
   );
 };
@@ -50,7 +52,7 @@ const HomeScreen = () => {
 const styles = StyleSheet.create({
   root: {
     flex: 1,
-    backgroundColor: "#454545",
+    backgroundColor: "#181A1A",
   },
 });
 export default HomeScreen;

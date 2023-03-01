@@ -1,272 +1,345 @@
-import { useNavigation } from '@react-navigation/native';
-import React, {useState} from 'react';
-import { Input, Pressable, Icon, VStack, HStack, Box, Button } from "native-base"
+import { useNavigation } from "@react-navigation/native";
+import React, { useState } from "react";
+import {
+  Input,
+  Pressable,
+  Icon,
+  VStack,
+  HStack,
+  Box,
+  Button,
+} from "native-base";
 import { MaterialIcons } from "@expo/vector-icons";
-import {  StyleSheet, Text, ScrollView} from 'react-native';
+import { StyleSheet, Text, ScrollView } from "react-native";
 
 function SignUpScreen(props) {
-    const [first_name, setFirstName] = useState('');
+  const [first_name, setFirstName] = useState("");
 
-    const [last_name, setLastName] = useState('');
+  const [last_name, setLastName] = useState("");
 
-    const [email, setEmail] = useState('');
+  const [email, setEmail] = useState("");
 
-    const [username, setUsername] = useState('');
+  const [username, setUsername] = useState("");
 
-    const [password, setPassword] = useState('');
+  const [password, setPassword] = useState("");
 
-    const [confirmPassword, setConfirmPassword] = useState('');
+  const [confirmPassword, setConfirmPassword] = useState("");
 
-    const [date_of_birth, setDateOfBirth] = useState('');
+  const [date_of_birth, setDateOfBirth] = useState("");
 
-    const [country, setCountry] = useState('');
+  const [country, setCountry] = useState("");
 
-    const [city, setCity] = useState('');
+  const [city, setCity] = useState("");
 
-    const [address, setAddress] = useState('');
+  const [address, setAddress] = useState("");
 
-    const [phone_num, setPhoneNumber] = useState('');
+  const [phone_num, setPhoneNumber] = useState("");
 
-    const [post_code, setPostCode] = useState('');
-    
-    const navigation = useNavigation();
+  const [post_code, setPostCode] = useState("");
 
-    const [show, setShow] = React.useState(false);
+  const navigation = useNavigation();
 
-    const onSignInPressed = () =>{
-        navigation.navigate('Sign In');
-    };
+  const [show, setShow] = React.useState(false);
 
-    const onSignUpWithFacebookPressed = () =>{
-        console.warn("Sign up With Facebook");
-    };
+  const onSignInPressed = () => {
+    navigation.navigate("Sign In");
+  };
 
-    const onSignUpWithGooglePressed = () =>{
-        console.warn("Sign in with Google");
-    };
+  const onSignUpWithFacebookPressed = () => {
+    console.warn("Sign up With Facebook");
+  };
 
-    const onSignUpPressed = async () =>{
-        if(password==confirmPassword)
-        {
-            const user = { first_name,last_name,username,email,password,date_of_birth,country,city,address,phone_num,post_code };
-        
-            const res = await fetch("http://192.168.1.5:8080/user/add", {
-                method: "POST",
-                body: JSON.stringify(user),
-                headers: { "Content-Type": "application/json" },
-            });
+  const onSignUpWithGooglePressed = () => {
+    console.warn("Sign in with Google");
+  };
 
-            if (!res.ok) return ToastAndroid.show("User already exist!", ToastAndroid.TOP);
+  const onSignUpPressed = async () => {
+    if (password == confirmPassword) {
+      const user = {
+        first_name,
+        last_name,
+        username,
+        email,
+        password,
+        date_of_birth,
+        country,
+        city,
+        address,
+        phone_num,
+        post_code,
+      };
 
-            navigation.navigate('Confirm email');
-        }
-        else
-        {
-            console.warn("Passwords don't match!")
-        }
-        
-    };
+      const res = await fetch("http://192.168.1.5:8080/user/add", {
+        method: "POST",
+        body: JSON.stringify(user),
+        headers: { "Content-Type": "application/json" },
+      });
 
-    const onTermsOfUsePressed = () =>{
-        console.warn("Terms of use");
-    };
+      if (!res.ok)
+        return ToastAndroid.show("User already exist!", ToastAndroid.TOP);
 
-    const onPrivacyPolicyPressed = () =>{
-        console.warn("Privacy policy");
-    };
+      navigation.navigate("Confirm email");
+    } else {
+      console.warn("Passwords don't match!");
+    }
+  };
 
-    return (
-        <Box style={styles.root}>
+  const onTermsOfUsePressed = () => {
+    console.warn("Terms of use");
+  };
 
-        <VStack style={styles.container1}>
-         
-            <Text style={styles.text1}>Sign Up</Text>        
+  const onPrivacyPolicyPressed = () => {
+    console.warn("Privacy policy");
+  };
 
-            <ScrollView style={styles.container2} showsVerticalScrollIndicator={false}>
+  return (
+    <Box style={styles.root}>
+      <VStack style={styles.container1}>
+        <Text style={styles.text1}>Sign Up</Text>
 
-            <VStack space={2}  alignItems={"center"} paddingTop={3} paddingBottom={7}>
-
-            <Text style={styles.text2}>By registering, you confirm that you accept our <Text style={styles.link} onPress={onTermsOfUsePressed}>Terms of Use</Text> and <Text style={styles.link} onPress={onPrivacyPolicyPressed}>Privacy Policy</Text></Text>
-
-            <HStack space={2}>
-            <Input 
-            placeholder='Firstname'
-            w={"41%"}
-            color={"white"}
-            value={first_name}
-            onChangeText={setFirstName}
-            placeholderTextColor="white"
-            />
-
-            <Input 
-            placeholder='Lastname'
-            w={"41%"}
-            color={"white"}
-            value={last_name}
-            onChangeText={setLastName}
-            placeholderTextColor="white"
-            />
-            </HStack>
-
-            <Input 
-            placeholder='Username'
-            w={"85%"}
-            color={"white"}
-            value={username}
-            onChangeText={setUsername}
-            placeholderTextColor="white"
-            />
-
-            <Input 
-            placeholder='Email'
-            color={"white"}
-            w={"85%"}
-            value={email}
-            onChangeText={setEmail}
-            placeholderTextColor="white"
-            />
-
-            <Input 
-            color={"white"}
-            value={password}
-            onChangeText={setPassword}
-            placeholder={"Password"}
-            keyboardType={"password"}
-            returnKeyType={"done"}
-            placeholderTextColor="white"
-            w={"85%"} 
-            type={show ? "text" : "password"} InputRightElement={<Pressable onPress={() => setShow(!show)}>
-            <Icon as={<MaterialIcons name={show ? "visibility-off" : "visibility"} />} size={5} mr="2" color="muted.400" />
-            </Pressable>}   
-            />
-
-            <Input 
-            color={"white"}
-            value={confirmPassword}
-            onChangeText={setConfirmPassword}
-            placeholder={"Password"}
-            keyboardType={"password"}
-            returnKeyType={"done"}
-            placeholderTextColor="white"
-            w={"85%"} 
-            type={show ? "text" : "password"} InputRightElement={<Pressable onPress={() => setShow(!show)}>
-            <Icon as={<MaterialIcons name={show ? "visibility-off" : "visibility"} />} size={5} mr="2" color="muted.400" />
-            </Pressable>}   
-            />
-
-            <Input 
-            placeholder='DateOfBirth'
-            color={"white"}
-            w={"85%"}
-            value={date_of_birth}
-            onChangeText={setDateOfBirth}
-            placeholderTextColor="white"
-            />
+        <ScrollView
+          style={styles.container2}
+          showsVerticalScrollIndicator={false}
+        >
+          <VStack
+            space={2}
+            alignItems={"center"}
+            paddingTop={3}
+            paddingBottom={7}
+          >
+            <Text style={styles.text2}>
+              By registering, you confirm that you accept our{" "}
+              <Text style={styles.link} onPress={onTermsOfUsePressed}>
+                Terms of Use
+              </Text>{" "}
+              and{" "}
+              <Text style={styles.link} onPress={onPrivacyPolicyPressed}>
+                Privacy Policy
+              </Text>
+            </Text>
 
             <HStack space={2}>
-            <Input 
-            placeholder='Country'
-            color={"white"}
-            w={"41%"}
-            value={country}
-            onChangeText={setCountry}
-            placeholderTextColor="white"
-            />
+              <Input
+                placeholder="Firstname"
+                w={"41%"}
+                color={"white"}
+                value={first_name}
+                onChangeText={setFirstName}
+                placeholderTextColor="white"
+              />
 
-            <Input 
-            placeholder='City'
-            color={"white"}
-            w={"41%"}
-            value={city}
-            onChangeText={setCity}
-            placeholderTextColor="white"
-            />
+              <Input
+                placeholder="Lastname"
+                w={"41%"}
+                color={"white"}
+                value={last_name}
+                onChangeText={setLastName}
+                placeholderTextColor="white"
+              />
             </HStack>
 
-            <Input 
-            placeholder='Address'
-            color={"white"}
-            w={"85%"}
-            value={address}
-            onChangeText={setAddress}
-            placeholderTextColor="white"
+            <Input
+              placeholder="Username"
+              w={"85%"}
+              color={"white"}
+              value={username}
+              onChangeText={setUsername}
+              placeholderTextColor="white"
+            />
+
+            <Input
+              placeholder="Email"
+              color={"white"}
+              w={"85%"}
+              value={email}
+              onChangeText={setEmail}
+              placeholderTextColor="white"
+            />
+
+            <Input
+              color={"white"}
+              value={password}
+              onChangeText={setPassword}
+              placeholder={"Password"}
+              keyboardType={"password"}
+              returnKeyType={"done"}
+              placeholderTextColor="white"
+              w={"85%"}
+              type={show ? "text" : "password"}
+              InputRightElement={
+                <Pressable onPress={() => setShow(!show)}>
+                  <Icon
+                    as={
+                      <MaterialIcons
+                        name={show ? "visibility-off" : "visibility"}
+                      />
+                    }
+                    size={5}
+                    mr="2"
+                    color="muted.400"
+                  />
+                </Pressable>
+              }
+            />
+
+            <Input
+              color={"white"}
+              value={confirmPassword}
+              onChangeText={setConfirmPassword}
+              placeholder={"Password"}
+              keyboardType={"password"}
+              returnKeyType={"done"}
+              placeholderTextColor="white"
+              w={"85%"}
+              type={show ? "text" : "password"}
+              InputRightElement={
+                <Pressable onPress={() => setShow(!show)}>
+                  <Icon
+                    as={
+                      <MaterialIcons
+                        name={show ? "visibility-off" : "visibility"}
+                      />
+                    }
+                    size={5}
+                    mr="2"
+                    color="muted.400"
+                  />
+                </Pressable>
+              }
+            />
+
+            <Input
+              placeholder="DateOfBirth"
+              color={"white"}
+              w={"85%"}
+              value={date_of_birth}
+              onChangeText={setDateOfBirth}
+              placeholderTextColor="white"
             />
 
             <HStack space={2}>
-            <Input 
-            color={"white"}
-            placeholder='PhoneNumber'
-            w={"41%"}
-            value={phone_num}
-            onChangeText={setPhoneNumber}
-            keyboardType={"phone-pad"}
-            placeholderTextColor="white"
-            />
+              <Input
+                placeholder="Country"
+                color={"white"}
+                w={"41%"}
+                value={country}
+                onChangeText={setCountry}
+                placeholderTextColor="white"
+              />
 
-            <Input 
-            color={"white"}
-            placeholder='PostCode'
-            w={"41%"}
-            value={post_code}
-            onChangeText={setPostCode}
-            keyboardType={"numeric"}
-            placeholderTextColor="white"
-            />
-            
+              <Input
+                placeholder="City"
+                color={"white"}
+                w={"41%"}
+                value={city}
+                onChangeText={setCity}
+                placeholderTextColor="white"
+              />
             </HStack>
 
-            <Button w="85%" onPress={onSignUpPressed} bgColor="darkBlue.600">Sign Up</Button>
+            <Input
+              placeholder="Address"
+              color={"white"}
+              w={"85%"}
+              value={address}
+              onChangeText={setAddress}
+              placeholderTextColor="white"
+            />
 
-            <Button w="85%" onPress={onSignUpWithFacebookPressed} bgColor="blue.100" _text={{color:"blue.500"}}>Sign in with Facebook</Button>
+            <HStack space={2}>
+              <Input
+                color={"white"}
+                placeholder="PhoneNumber"
+                w={"41%"}
+                value={phone_num}
+                onChangeText={setPhoneNumber}
+                keyboardType={"phone-pad"}
+                placeholderTextColor="white"
+              />
 
-            <Button w="85%" onPress={onSignUpWithGooglePressed} bgColor="red.200" _text={{color:"red.400"}}>Sign in with Google</Button>
+              <Input
+                color={"white"}
+                placeholder="PostCode"
+                w={"41%"}
+                value={post_code}
+                onChangeText={setPostCode}
+                keyboardType={"numeric"}
+                placeholderTextColor="white"
+              />
+            </HStack>
 
-            <Button w="85%" onPress={onSignInPressed} _text={{color:"trueGray.500"}} variant="link">Already have an account? Sign In.</Button>
-            </VStack>
+            <Button w="85%" onPress={onSignUpPressed} bgColor="darkBlue.600">
+              Sign Up
+            </Button>
 
-            </ScrollView>
-    
-        </VStack>
+            <Button
+              w="85%"
+              onPress={onSignUpWithFacebookPressed}
+              bgColor="blue.100"
+              _text={{ color: "blue.500" }}
+            >
+              Sign in with Facebook
+            </Button>
 
-        </Box>
-    );
+            <Button
+              w="85%"
+              onPress={onSignUpWithGooglePressed}
+              bgColor="red.200"
+              _text={{ color: "red.400" }}
+            >
+              Sign in with Google
+            </Button>
+
+            <Button
+              w="85%"
+              onPress={onSignInPressed}
+              _text={{ color: "trueGray.500" }}
+              variant="link"
+            >
+              Already have an account? Sign In.
+            </Button>
+          </VStack>
+        </ScrollView>
+      </VStack>
+    </Box>
+  );
 }
 
 const styles = StyleSheet.create({
-    root:{
-        flex: 1,
-        backgroundColor: "#454545",
-        paddingBottom: 100
-    },
-    container1: {
-        flex: 1,
-        alignItems: "center",
-        top: 40,
-        margin: 15,
-    },
-    container2: {
-        top:30,
-        width:"85%",
-        backgroundColor: "#363636",
+  root: {
+    flex: 1,
+    backgroundColor: "#181A1A",
+    paddingBottom: 100,
+  },
+  container1: {
+    flex: 1,
+    alignItems: "center",
+    top: 40,
+    margin: 15,
+  },
+  container2: {
+    top: 30,
+    width: "85%",
+    backgroundColor: "#363636",
 
-        borderColor: "#363636",
-        borderWidth: 1,
-        borderRadius: 5,
-    },
-    text1: {
-        fontSize:35,
-        color: "white",
-        fontWeight: "bold"
-    },
-    text2: {
-        color: "grey",
-        marginVertical: 10,
-        width:"85%",
-        left:10
-    },
-    link: {
-        color: "#3B71F3",
-    }
-})
+    borderColor: "#363636",
+    borderWidth: 1,
+    borderRadius: 5,
+  },
+  text1: {
+    fontSize: 35,
+    color: "white",
+    fontWeight: "bold",
+  },
+  text2: {
+    color: "grey",
+    marginVertical: 10,
+    width: "85%",
+    left: 10,
+  },
+  link: {
+    color: "#3B71F3",
+  },
+});
 
 export default SignUpScreen;
