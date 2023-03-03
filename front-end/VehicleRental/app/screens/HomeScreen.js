@@ -1,6 +1,5 @@
-import { Text, StyleSheet, Dimensions } from "react-native";
-import { StatusBar, Box, HStack, Menu, Pressable, VStack } from "native-base";
-import { FontAwesome } from "@expo/vector-icons";
+import { Text, StyleSheet, Dimensions, Image } from "react-native";
+import { Box, HStack, Menu, Pressable } from "native-base";
 import React from "react";
 import { useNavigation } from "@react-navigation/native";
 import Tabs from "../components/Tabs";
@@ -31,7 +30,12 @@ const HomeScreen = () => {
                 accessibilityLabel="More options menu"
                 {...triggerProps}
               >
-                <FontAwesome name="user-circle" size={33} color="#363636" />
+                <Box style={styles.imgContainer}>
+                  <Image
+                    style={styles.image}
+                    source={require("../assets/images/user.png")}
+                  />
+                </Box>
               </Pressable>
             );
           }}
@@ -53,6 +57,18 @@ const styles = StyleSheet.create({
   root: {
     flex: 1,
     backgroundColor: "#181A1A",
+  },
+  accountContainer: {
+    flex: 1,
+    justifyContent: "center",
+    alignItems: "center",
+  },
+  image: {
+    width: 50,
+    height: 50,
+    borderRadius: 55,
+    borderColor: "white",
+    borderWidth: 3,
   },
 });
 export default HomeScreen;
