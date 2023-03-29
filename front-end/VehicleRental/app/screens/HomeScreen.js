@@ -1,15 +1,20 @@
 import { Text, StyleSheet, Dimensions, Image } from "react-native";
 import { Box, HStack, Menu, Pressable } from "native-base";
-import React from "react";
+import React, { useContext } from "react";
 import { useNavigation } from "@react-navigation/native";
 import Tabs from "../components/Tabs";
+import { useCore } from "../providers/CoreProvider";
 
 const HomeScreen = () => {
-  const screenDimensions = Dimensions.get("screen");
   const navigation = useNavigation();
+  const { user, setUser } = useCore();
 
   const onAccountPressed = () => {
     navigation.navigate("Account");
+  };
+
+  const onSignOutPressed = () =>{
+    navigation.navigate("Sign In");
   };
 
   return (
@@ -33,7 +38,7 @@ const HomeScreen = () => {
                 <Box style={styles.imgContainer}>
                   <Image
                     style={styles.image}
-                    source={require("../assets/images/user.png")}
+                    source={ user.profile_pic ? { uri: user.profile_pic } : require("../assets/images/user.png")}
                   />
                 </Box>
               </Pressable>
@@ -43,12 +48,12 @@ const HomeScreen = () => {
           <Menu.Item onPress={onAccountPressed}>
             <Text style={{ color: "white" }}>Account</Text>
           </Menu.Item>
-          <Menu.Item>
+          <Menu.Item onPress={onSignOutPressed}>
             <Text style={{ color: "white" }}>Sign out</Text>
           </Menu.Item>
         </Menu>
       </HStack>
-      <Tabs />
+      <Tabs key="HomeScreen"/>
     </Box>
   );
 };

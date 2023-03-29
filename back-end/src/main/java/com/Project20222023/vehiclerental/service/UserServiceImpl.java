@@ -24,9 +24,10 @@ public class UserServiceImpl implements UserService{
     }
 
     @Override
-    public List<User> getAllUsers() {
-
-        return userRepository.findAll();
+    public ResponseEntity<User> setProfilePic(String username, String password,String profile_pic){
+        User user = userRepository.findByUsernameAndPassword(username,password);
+        user.setProfile_pic(profile_pic);
+        return ResponseEntity.ok(userRepository.save(user));
     }
 
     @Override

@@ -34,31 +34,31 @@ const initialLayout = {
   width: Dimensions.get("window").width,
 };
 const renderScene = SceneMap({
-  first: FirstRoute,
-  second: SecondRoute,
-  third: ThirdRoute,
-  fourth: FourthRoute,
+  0: FirstRoute,
+  1: SecondRoute,
+  2: ThirdRoute,
+  3: FourthRoute,
 });
 
 function Tabs() {
   const [index, setIndex] = useState(0);
   const [routes] = useState([
     {
-      key: "first",
+      key: 0,
       title: <FontAwesome5 name="car-side" size={26} color="#363636" />,
     },
     {
-      key: "second",
+      key: 1,
       title: <FontAwesome5 name="motorcycle" size={26} color="#363636" />,
     },
     {
-      key: "third",
+      key: 2,
       title: (
         <MaterialCommunityIcons name="sail-boat" size={26} color="#363636" />
       ),
     },
     {
-      key: "fourth",
+      key: 3,
       title: <Ionicons name="airplane" size={26} color="#363636" />,
     },
   ]);
@@ -88,20 +88,15 @@ function Tabs() {
               alignItems="center"
               p="3"
               cursor="pointer"
+              key={i}
             >
-              <Pressable
-                onPress={() => {
-                  setIndex(i);
+              <Animated.Text
+                style={{
+                  color,
                 }}
               >
-                <Animated.Text
-                  style={{
-                    color,
-                  }}
-                >
-                  {route.title}
-                </Animated.Text>
-              </Pressable>
+                {route.title}
+              </Animated.Text>
             </Box>
           );
         })}

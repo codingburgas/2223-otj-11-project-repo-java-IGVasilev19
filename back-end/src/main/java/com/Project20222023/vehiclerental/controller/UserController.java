@@ -3,6 +3,7 @@ package com.Project20222023.vehiclerental.controller;
 import com.Project20222023.vehiclerental.model.User;
 import com.Project20222023.vehiclerental.service.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.boot.autoconfigure.neo4j.Neo4jProperties;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
@@ -24,11 +25,6 @@ public class UserController {
         return userService.saveUser(user);
     }
 
-    @GetMapping("/getAll")
-    public List<User> getAllUsers(){
-        return userService.getAllUsers();
-    }
-
     @PostMapping("/getByUsername")
     public ResponseEntity<User> getByUsernameAndPassword(@RequestBody User user) {
         return userService.findByUsernameAndPassword(user.getUsername(), user.getPassword());
@@ -37,5 +33,10 @@ public class UserController {
     @PostMapping("/getByEmail")
     public ResponseEntity<User> findByEmailAndPassword(@RequestBody User user) {
         return userService.findByEmailAndPassword(user.getEmail(),user.getPassword());
+    }
+
+    @PostMapping("/setProfilePic")
+    public ResponseEntity<User> saveProfilePic(@RequestBody User user){
+        return userService.setProfilePic(user.getUsername(),user.getPassword(), user.getProfile_pic());
     }
 }

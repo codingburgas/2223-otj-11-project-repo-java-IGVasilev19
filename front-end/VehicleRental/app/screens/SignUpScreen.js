@@ -1,6 +1,7 @@
 import { useNavigation } from "@react-navigation/native";
 import React, { useState } from "react";
 import {
+  useToast,
   Input,
   Pressable,
   Icon,
@@ -13,6 +14,14 @@ import { MaterialIcons } from "@expo/vector-icons";
 import { StyleSheet, Text, ScrollView } from "react-native";
 
 function SignUpScreen(props) {
+  const notify = useToast();
+
+  const [show1, setShow1] = useState(false);
+
+  const [show2, setShow2] = useState(false);
+  
+  const id = "notify";
+
   const [first_name, setFirstName] = useState("");
 
   const [last_name, setLastName] = useState("");
@@ -38,8 +47,6 @@ function SignUpScreen(props) {
   const [post_code, setPostCode] = useState("");
 
   const navigation = useNavigation();
-
-  const [show, setShow] = React.useState(false);
 
   const onSignInPressed = () => {
     navigation.navigate("Sign In");
@@ -75,12 +82,29 @@ function SignUpScreen(props) {
         headers: { "Content-Type": "application/json" },
       });
 
-      if (!res.ok)
-        return ToastAndroid.show("User already exist!", ToastAndroid.TOP);
-
-      navigation.navigate("Confirm email");
-    } else {
-      console.warn("Passwords don't match!");
+      if (!res.ok) {
+        if (!notify.isActive(id)) {
+          return notify.show({
+            id,
+            title: "User already exist!",
+            avoidKeyboard: true,
+            duration: 3000,
+            buttonStyle: { backgroundColor: "#5cb85c" },
+          });
+        }
+      }else{
+        navigation.navigate("Confirm email");
+      }
+    }else {
+      if (!notify.isActive(id)) {
+        return notify.show({
+          id,
+          title: "Passwords don't match!",
+          avoidKeyboard: true,
+          duration: 3000,
+          buttonStyle: { backgroundColor: "#5cb85c" },
+        });
+      }
     }
   };
 
@@ -165,13 +189,13 @@ function SignUpScreen(props) {
               returnKeyType={"done"}
               placeholderTextColor="white"
               w={"85%"}
-              type={show ? "text" : "password"}
+              type={show1 ? "text" : "password"}
               InputRightElement={
-                <Pressable onPress={() => setShow(!show)}>
+                <Pressable onPress={() => setShow1(!show1)}>
                   <Icon
                     as={
                       <MaterialIcons
-                        name={show ? "visibility-off" : "visibility"}
+                        name={show1 ? "visibility-off" : "visibility"}
                       />
                     }
                     size={5}
@@ -191,13 +215,13 @@ function SignUpScreen(props) {
               returnKeyType={"done"}
               placeholderTextColor="white"
               w={"85%"}
-              type={show ? "text" : "password"}
+              type={show2 ? "text" : "password"}
               InputRightElement={
-                <Pressable onPress={() => setShow(!show)}>
+                <Pressable onPress={() => setShow2(!show2)}>
                   <Icon
                     as={
                       <MaterialIcons
-                        name={show ? "visibility-off" : "visibility"}
+                        name={show2 ? "visibility-off" : "visibility"}
                       />
                     }
                     size={5}

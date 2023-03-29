@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useState, useContext } from "react";
 import {
   useToast,
   Box,
@@ -11,11 +11,13 @@ import {
 import { MaterialIcons } from "@expo/vector-icons";
 import { StyleSheet, Text } from "react-native";
 import { useNavigation } from "@react-navigation/native";
+import { useCore } from "../providers/CoreProvider";
+
 
 function SignInScreen() {
   const [value, setValue] = useState("");
   const [password, setPassword] = useState("");
-  const [user, setUser] = useState("");
+  const { user, setUser } = useCore();
   const notify = useToast();
   const [show, setShow] = useState(false);
   const id = "notify";
@@ -44,6 +46,7 @@ function SignInScreen() {
             });
           }
         }
+
 
         const user = await res.json();
 

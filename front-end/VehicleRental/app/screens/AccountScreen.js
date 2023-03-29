@@ -2,10 +2,11 @@ import { Text, StyleSheet, Image, TouchableOpacity } from "react-native";
 import { Box, VStack } from "native-base";
 import * as ImagePicker from "expo-image-picker";
 import { Entypo } from "@expo/vector-icons";
-import React, { useState } from "react";
+import React, { useState, useContext } from "react";
+import { useCore } from "../providers/CoreProvider";
 
 const AccountScreen = (props) => {
-  const [image, setImage] = useState(null);
+  const { user, setUser } = useCore();
 
   const imagePick = async () => {
     const { status } = await ImagePicker.requestMediaLibraryPermissionsAsync();
@@ -22,12 +23,24 @@ const AccountScreen = (props) => {
       width: 200,
       quality: 1,
     });
-    setImage(image);
-    if (!result.canceled) {
-      setImage(result.assets[0].uri);
-    }
-  };
 
+    if (result.canceled) return;
+        
+    const res = await fetch("http://192.168.1.5:8080/user/setProfilePic", {
+      method: "POST",
+      body: JSON.stringify({
+        username: user.username,
+        password: user.password,
+        profile_pic: result.assets[0].uri
+      }),
+      headers: { "Content-Type": "application/json" },
+    });
+
+    const usr = await res.json();
+
+    setUser(usr);
+  };
+  
   return (
     <Box style={styles.root}>
       <VStack top={50} alignItems="center" space={5}>
@@ -39,7 +52,7 @@ const AccountScreen = (props) => {
             <Image
               style={styles.image}
               source={
-                image ? { uri: image } : require("../assets/images/user.png")
+                user.profile_pic ? { uri: user.profile_pic } : require("../assets/images/user.png")
               }
             />
             <Box style={{ alignItems: "flex-end", top: -18 }}>

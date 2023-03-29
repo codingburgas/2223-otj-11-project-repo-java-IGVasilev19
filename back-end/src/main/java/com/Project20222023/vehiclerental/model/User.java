@@ -1,6 +1,7 @@
 package com.Project20222023.vehiclerental.model;
 
 import jakarta.persistence.*;
+import org.springframework.lang.Nullable;
 
 @Entity
 public class User {
@@ -20,6 +21,8 @@ public class User {
     private String address;
     private String phone_num;
     private String post_code;
+    @Nullable
+    private String profile_pic;
 
 
 
@@ -48,6 +51,14 @@ public class User {
 
     public void setLast_name(String last_name) {
         this.last_name = last_name;
+    }
+
+    public String getProfile_pic() {
+        return profile_pic;
+    }
+
+    public void setProfile_pic(String profile_pic) {
+        this.profile_pic = profile_pic;
     }
 
     public String getUsername() {
