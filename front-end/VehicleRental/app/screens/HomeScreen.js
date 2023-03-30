@@ -13,7 +13,7 @@ const HomeScreen = () => {
     navigation.navigate("Account");
   };
 
-  const onSignOutPressed = () =>{
+  const onSignOutPressed = () => {
     navigation.navigate("Sign In");
   };
 
@@ -35,10 +35,14 @@ const HomeScreen = () => {
                 accessibilityLabel="More options menu"
                 {...triggerProps}
               >
-                <Box style={styles.imgContainer}>
+                <Box>
                   <Image
                     style={styles.image}
-                    source={ user.profile_pic ? { uri: user.profile_pic } : require("../assets/images/user.png")}
+                    source={
+                      user.profile_pic
+                        ? { uri: user.profile_pic }
+                        : require("../assets/images/user.png")
+                    }
                   />
                 </Box>
               </Pressable>
@@ -53,7 +57,7 @@ const HomeScreen = () => {
           </Menu.Item>
         </Menu>
       </HStack>
-      <Tabs key="HomeScreen"/>
+      <Tabs key="HomeScreen" />
     </Box>
   );
 };

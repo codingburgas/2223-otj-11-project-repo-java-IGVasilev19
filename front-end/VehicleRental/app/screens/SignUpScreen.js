@@ -19,7 +19,7 @@ function SignUpScreen(props) {
   const [show1, setShow1] = useState(false);
 
   const [show2, setShow2] = useState(false);
-  
+
   const id = "notify";
 
   const [first_name, setFirstName] = useState("");
@@ -92,10 +92,10 @@ function SignUpScreen(props) {
             buttonStyle: { backgroundColor: "#5cb85c" },
           });
         }
-      }else{
+      } else {
         navigation.navigate("Confirm email");
       }
-    }else {
+    } else {
       if (!notify.isActive(id)) {
         return notify.show({
           id,

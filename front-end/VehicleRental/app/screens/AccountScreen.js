@@ -1,8 +1,8 @@
 import { Text, StyleSheet, Image, TouchableOpacity } from "react-native";
-import { Box, VStack } from "native-base";
+import { Box, VStack, Input, Button } from "native-base";
 import * as ImagePicker from "expo-image-picker";
+import React, { useState } from "react";
 import { Entypo } from "@expo/vector-icons";
-import React, { useState, useContext } from "react";
 import { useCore } from "../providers/CoreProvider";
 
 const AccountScreen = (props) => {
@@ -25,13 +25,13 @@ const AccountScreen = (props) => {
     });
 
     if (result.canceled) return;
-        
+
     const res = await fetch("http://192.168.1.5:8080/user/setProfilePic", {
       method: "POST",
       body: JSON.stringify({
         username: user.username,
         password: user.password,
-        profile_pic: result.assets[0].uri
+        profile_pic: result.assets[0].uri,
       }),
       headers: { "Content-Type": "application/json" },
     });
@@ -40,19 +40,21 @@ const AccountScreen = (props) => {
 
     setUser(usr);
   };
-  
+
   return (
     <Box style={styles.root}>
       <VStack top={50} alignItems="center" space={5}>
         <Text style={{ color: "white", fontSize: 30, fontWeight: "bold" }}>
           My account info
         </Text>
-        <Box style={styles.imgContainer}>
+        <Box>
           <TouchableOpacity onPress={imagePick}>
             <Image
               style={styles.image}
               source={
-                user.profile_pic ? { uri: user.profile_pic } : require("../assets/images/user.png")
+                user.profile_pic
+                  ? { uri: user.profile_pic }
+                  : require("../assets/images/user.png")
               }
             />
             <Box style={{ alignItems: "flex-end", top: -18 }}>
@@ -60,7 +62,38 @@ const AccountScreen = (props) => {
             </Box>
           </TouchableOpacity>
         </Box>
-        <Box style={styles.textContainer}></Box>
+        <Input
+          placeholder={"Username: " + user.username}
+          selectionColor="white"
+          color={"white"}
+          w={"65%"}
+          placeholderTextColor="white"
+          editable={false}
+        />
+        <Input
+          placeholder={"Email: " + user.email}
+          selectionColor="white"
+          color={"white"}
+          w={"65%"}
+          placeholderTextColor="white"
+          editable={false}
+        />
+        <Input
+          placeholder={"Password: " + user.password}
+          selectionColor="white"
+          color={"white"}
+          w={"65%"}
+          placeholderTextColor="white"
+          editable={false}
+        />
+        <Input
+          placeholder={"Phone number: " + user.phone_num}
+          selectionColor="white"
+          color={"white"}
+          w={"65%"}
+          placeholderTextColor="white"
+          editable={false}
+        />
       </VStack>
     </Box>
   );
@@ -71,8 +104,6 @@ const styles = StyleSheet.create({
     flex: 1,
     backgroundColor: "#181A1A",
   },
-  imgContainer: {},
-  textContainer: {},
   image: {
     width: 110,
     height: 110,
