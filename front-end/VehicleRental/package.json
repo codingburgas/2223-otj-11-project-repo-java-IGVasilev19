@@ -28,10 +28,12 @@
     "react-hooks-global-state": "^2.1.0",
     "react-native": "0.70.5",
     "react-native-image-crop-picker": "^0.39.0",
+    "react-native-masked-text": "^1.13.0",
     "react-native-pager-view": "6.0.1",
     "react-native-screens": "~3.18.0",
-    "react-native-tab-view": "^3.5.1",
-    "react-native-svg": "13.4.0"
+    "react-native-select-dropdown": "^3.3.2",
+    "react-native-svg": "13.4.0",
+    "react-native-tab-view": "^3.5.1"
   },
   "devDependencies": {
     "@babel/core": "^7.12.9"

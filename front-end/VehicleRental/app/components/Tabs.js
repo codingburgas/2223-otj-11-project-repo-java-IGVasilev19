@@ -2,45 +2,85 @@ import { TabView, SceneMap } from "react-native-tab-view";
 import { MaterialCommunityIcons } from "@expo/vector-icons";
 import { Ionicons } from "@expo/vector-icons";
 import { FontAwesome5 } from "@expo/vector-icons";
-import { Dimensions, StatusBar, Animated, Pressable, Text } from "react-native";
-import { Box, Center, HStack, useColorModeValue, VStack } from "native-base";
-import React, { useState } from "react";
-
-const FirstRoute = () => (
-  <Center my="4">
-    <Text style={{ color: "white" }}>This is Tab 1</Text>
-  </Center>
-);
-
-const SecondRoute = () => (
-  <Center my="4">
-    <Text style={{ color: "white" }}>This is Tab 2</Text>
-  </Center>
-);
-
-const ThirdRoute = () => (
-  <Center my="4">
-    <Text style={{ color: "white" }}>This is Tab 3</Text>
-  </Center>
-);
-
-const FourthRoute = () => (
-  <Center my="4">
-    <Text style={{ color: "white" }}>This is Tab 4</Text>
-  </Center>
-);
-
-const initialLayout = {
-  width: Dimensions.get("window").width,
-};
-const renderScene = SceneMap({
-  0: FirstRoute,
-  1: SecondRoute,
-  2: ThirdRoute,
-  3: FourthRoute,
-});
+import {
+  Dimensions,
+  StatusBar,
+  Animated,
+  Image,
+  Text,
+  TouchableOpacity,
+  StyleSheet,
+  FlatList,
+} from "react-native";
+import { Box, Center, HStack, useColorModeValue } from "native-base";
+import React, { useEffect, useState } from "react";
 
 function Tabs() {
+  const FirstRoute = () => (
+    <Center my="4">
+      {vehicles.map((vehicle) =>
+        vehicle.vehicle_type == "Car" ? (
+          <FlatList
+            key={vehicle.id}
+            data={vehicle.image1}
+            renderItem={({ item }) => (
+              <TouchableOpacity>
+                <Image source={{ uri: item.image }} style={styles.image}/>
+              </TouchableOpacity>
+            )}
+          />
+        ) : null
+      )}
+    </Center>
+  );
+
+  const SecondRoute = () => (
+    <Center my="4">
+      {vehicles.map((item) =>
+        item.vehicle_type == "Motorcycle" ? (
+          <TouchableOpacity key={item.id}>
+            <Image style={styles.image} source={{ uri: item.image1 }} />
+          </TouchableOpacity>
+        ) : null
+      )}
+    </Center>
+  );
+
+  const ThirdRoute = () => (
+    <Center my="4">
+      {vehicles.map((item) =>
+        item.vehicle_type == "Boat" ? (
+          <TouchableOpacity key={item.id}>
+            <Image style={styles.image} source={{ uri: item.image1 }} />
+          </TouchableOpacity>
+        ) : null
+      )}
+    </Center>
+  );
+
+  const FourthRoute = () => (
+    <Center my="4">
+      {vehicles.map((item) =>
+        item.vehicle_type == "Plane" ? (
+          <TouchableOpacity key={item.id}>
+            <Image style={styles.image} source={{ uri: item.image1 }} />
+          </TouchableOpacity>
+        ) : null
+      )}
+    </Center>
+  );
+
+  const initialLayout = {
+    width: Dimensions.get("window").width,
+  };
+  const renderScene = SceneMap({
+    0: FirstRoute,
+    1: SecondRoute,
+    2: ThirdRoute,
+    3: FourthRoute,
+  });
+
+  const [vehicles, setVehicles] = useState([]);
   const [index, setIndex] = useState(0);
   const [routes] = useState([
     {
@@ -62,6 +102,27 @@ function Tabs() {
       title: <Ionicons name="airplane" size={26} color="#363636" />,
     },
   ]);
+
+  async function getVehicles() {
+    const res = await fetch("http://192.168.1.5:8080/vehicle/get", {
+      method: "POST",
+      headers: { "Content-Type": "application/json" },
+    });
+
+    if (!res.ok) return null;
+
+    const vehRes = await res.json();
+
+    setVehicles(vehRes);
+  }
+
+  useEffect(() => {
+    const interval = setInterval(async () => {
+      getVehicles();
+    }, 1000);
+
+    return () => clearInterval(interval);
+  }, []);
 
   const renderTabBar = (props) => {
     const inputRange = props.navigationState.routes.map((x, i) => i);
@@ -121,5 +182,12 @@ function Tabs() {
     />
   );
 }
+
+const styles = StyleSheet.create({
+  image: {
+    width: "20%",
+    aspectRatio: 1,
+  },
+});
 
 export default Tabs;

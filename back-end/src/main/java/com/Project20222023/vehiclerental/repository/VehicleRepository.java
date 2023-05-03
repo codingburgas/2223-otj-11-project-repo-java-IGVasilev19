@@ -1,2 +1,10 @@
-package com.Project20222023.vehiclerental.repository;public interface VehicleRepository {
+package com.Project20222023.vehiclerental.repository;
+
+import com.Project20222023.vehiclerental.model.Vehicle;
+import org.springframework.data.jpa.repository.JpaRepository;
+import org.springframework.stereotype.Repository;
+
+@Repository
+public interface VehicleRepository extends JpaRepository<Vehicle,String> {
+    Vehicle findByVin(String vin);
 }
