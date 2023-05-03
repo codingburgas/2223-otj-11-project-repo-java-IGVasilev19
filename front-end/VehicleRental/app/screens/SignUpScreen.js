@@ -11,7 +11,10 @@ import {
   Button,
 } from "native-base";
 import { MaterialIcons } from "@expo/vector-icons";
+import FontAwesome from "react-native-vector-icons/FontAwesome";
+import SelectDropdown from "react-native-select-dropdown";
 import { StyleSheet, Text, ScrollView } from "react-native";
+import { TextInputMask } from "react-native-masked-text";
 
 function SignUpScreen(props) {
   const notify = useToast();
@@ -36,6 +39,8 @@ function SignUpScreen(props) {
 
   const [date_of_birth, setDateOfBirth] = useState("");
 
+  const [user_type, setUserType] = useState("");
+
   const [country, setCountry] = useState("");
 
   const [city, setCity] = useState("");
@@ -45,6 +50,8 @@ function SignUpScreen(props) {
   const [phone_num, setPhoneNumber] = useState("");
 
   const [post_code, setPostCode] = useState("");
+
+  const userTypes = ["Owner", "Renter"];
 
   const navigation = useNavigation();
 
@@ -63,6 +70,7 @@ function SignUpScreen(props) {
   const onSignUpPressed = async () => {
     if (password == confirmPassword) {
       const user = {
+        user_type,
         first_name,
         last_name,
         username,
@@ -231,16 +239,55 @@ function SignUpScreen(props) {
                 </Pressable>
               }
             />
-
-            <Input
-              placeholder="DateOfBirth"
-              color={"white"}
-              w={"85%"}
-              value={date_of_birth}
-              onChangeText={setDateOfBirth}
-              placeholderTextColor="white"
-            />
-
+            <HStack space={2}>
+              <TextInputMask
+                type={"datetime"}
+                placeholder="DateOfBirth"
+                placeholderTextColor="white"
+                color={"white"}
+                options={{
+                  format: "MM/DD/YYYY",
+                }}
+                value={date_of_birth}
+                onChangeText={setDateOfBirth}
+                style={{
+                  borderWidth: 0.8,
+                  borderColor: "white",
+                  borderRadius: 4,
+                  width: "41%",
+                  paddingHorizontal: 10,
+                  fontSize: 12,
+                }}
+              />
+              <SelectDropdown
+                data={userTypes}
+                onSelect={(index) => {
+                  setUserType(index);
+                }}
+                defaultButtonText={"User type"}
+                buttonTextAfterSelection={(selectedItem, index) => {
+                  return selectedItem;
+                }}
+                rowTextForSelection={(item, index) => {
+                  return item;
+                }}
+                buttonStyle={styles.dropdown1BtnStyle}
+                buttonTextStyle={styles.dropdown1BtnTxtStyle}
+                renderDropdownIcon={(isOpened) => {
+                  return (
+                    <FontAwesome
+                      name={isOpened ? "chevron-up" : "chevron-down"}
+                      color={"white"}
+                      size={18}
+                    />
+                  );
+                }}
+                dropdownIconPosition={"right"}
+                dropdownStyle={styles.dropdown1DropdownStyle}
+                rowStyle={styles.dropdown1RowStyle}
+                rowTextStyle={styles.dropdown1RowTxtStyle}
+              />
+            </HStack>
             <HStack space={2}>
               <Input
                 placeholder="Country"
@@ -364,6 +411,27 @@ const styles = StyleSheet.create({
   link: {
     color: "#3B71F3",
   },
+  addButton: {
+    width: 60,
+    height: 60,
+    borderRadius: 55,
+  },
+  dropdown1BtnStyle: {
+    width: "41%",
+    backgroundColor: "#363636",
+    borderRadius: 5,
+    borderWidth: 0.8,
+    borderColor: "white",
+  },
+  dropdown1BtnTxtStyle: { color: "white", textAlign: "left", fontSize: 13 },
+  dropdown1DropdownStyle: {
+    backgroundColor: "#363636",
+    borderRadius: 4,
+    borderTopWidth: 0.8,
+    borderColor: "white",
+  },
+  dropdown1RowStyle: { backgroundColor: "#363636" },
+  dropdown1RowTxtStyle: { color: "white", textAlign: "left" },
 });
 
 export default SignUpScreen;

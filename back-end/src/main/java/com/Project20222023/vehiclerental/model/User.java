@@ -16,6 +16,16 @@ public class User {
     private String email;
     private String password;
     private String date_of_birth;
+    private String user_type;
+
+    public String getUser_type() {
+        return user_type;
+    }
+
+    public void setUser_type(String user_type) {
+        this.user_type = user_type;
+    }
+
     private String country;
     private String city;
     private String address;

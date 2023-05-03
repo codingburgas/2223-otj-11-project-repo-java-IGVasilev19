@@ -13,7 +13,6 @@ import { StyleSheet, Text } from "react-native";
 import { useNavigation } from "@react-navigation/native";
 import { useCore } from "../providers/CoreProvider";
 
-
 function SignInScreen() {
   const [value, setValue] = useState("");
   const [password, setPassword] = useState("");
@@ -47,13 +46,16 @@ function SignInScreen() {
           }
         }
 
-
         const user = await res.json();
 
         setUser(user);
 
         if (value == user.email) {
-          navigation.navigate("Home");
+          if(user.user_type=="Owner"){
+            navigation.navigate("OwnerHome");
+          }else{
+            navigation.navigate("RenterHome");
+          }
         }
       } else {
         const res = await fetch("http://192.168.1.5:8080/user/getByUsername", {
@@ -65,11 +67,11 @@ function SignInScreen() {
           headers: { "Content-Type": "application/json" },
         });
 
-        if (!res.ok) {
+        while(!res.ok) {
           if (!notify.isActive(id)) {
             return notify.show({
               id,
-              title: "User with this username or password doesn't exist",
+              title: "Incorrect username/email and/or password!",
               avoidKeyboard: true,
               duration: 3000,
             });
@@ -81,7 +83,11 @@ function SignInScreen() {
         setUser(user);
 
         if (value == user.username) {
-          navigation.navigate("Home");
+          if(user.user_type=="Owner"){
+            navigation.navigate("OwnerHome");
+          }else{
+            navigation.navigate("RenterHome");
+          }
         }
       }
     } else {
