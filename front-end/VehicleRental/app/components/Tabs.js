@@ -17,56 +17,66 @@ import React, { useEffect, useState } from "react";
 
 function Tabs() {
   const FirstRoute = () => (
-    <Center my="4">
-      {vehicles.map((vehicle) =>
-        vehicle.vehicle_type == "Car" ? (
-          <FlatList
-            key={vehicle.id}
-            data={vehicle.image1}
-            renderItem={({ item }) => (
-              <TouchableOpacity>
-                <Image source={{ uri: item.image }} style={styles.image}/>
-              </TouchableOpacity>
-            )}
-          />
-        ) : null
-      )}
+    <Center my="5">
+      <FlatList
+        data={vehicles}
+        renderItem={({ item }) =>
+          item.vehicle_type == "Car" ? (
+            <TouchableOpacity style={styles.itemContainer} key={item.id}>
+              <Image style={styles.image} source={{ uri: item.image1 }} />
+            </TouchableOpacity>
+          ) : null
+        }
+        numColumns={2}
+      />
     </Center>
   );
 
   const SecondRoute = () => (
-    <Center my="4">
-      {vehicles.map((item) =>
-        item.vehicle_type == "Motorcycle" ? (
-          <TouchableOpacity key={item.id}>
-            <Image style={styles.image} source={{ uri: item.image1 }} />
-          </TouchableOpacity>
-        ) : null
-      )}
+    <Center my="5">
+      <FlatList
+        data={vehicles}
+        renderItem={({ item }) =>
+          item.vehicle_type == "Motorcycle" ? (
+            <TouchableOpacity style={styles.itemContainer} key={item.id}>
+              <Image style={styles.image} source={{ uri: item.image1 }} />
+            </TouchableOpacity>
+          ) : null
+        }
+        numColumns={2}
+      />
     </Center>
   );
 
   const ThirdRoute = () => (
-    <Center my="4">
-      {vehicles.map((item) =>
-        item.vehicle_type == "Boat" ? (
-          <TouchableOpacity key={item.id}>
-            <Image style={styles.image} source={{ uri: item.image1 }} />
-          </TouchableOpacity>
-        ) : null
-      )}
+    <Center my="5">
+      <FlatList
+        data={vehicles}
+        renderItem={({ item }) =>
+          item.vehicle_type == "Boat" ? (
+            <TouchableOpacity style={styles.itemContainer} key={item.id}>
+              <Image style={styles.image} source={{ uri: item.image1 }} />
+            </TouchableOpacity>
+          ) : null
+        }
+        numColumns={2}
+      />
     </Center>
   );
 
   const FourthRoute = () => (
-    <Center my="4">
-      {vehicles.map((item) =>
-        item.vehicle_type == "Plane" ? (
-          <TouchableOpacity key={item.id}>
-            <Image style={styles.image} source={{ uri: item.image1 }} />
-          </TouchableOpacity>
-        ) : null
-      )}
+    <Center my="5">
+      <FlatList
+        data={vehicles}
+        renderItem={({ item }) =>
+          item.vehicle_type == "Plane" ? (
+            <TouchableOpacity style={styles.itemContainer} key={item.id}>
+              <Image style={styles.image} source={{ uri: item.image1 }} />
+            </TouchableOpacity>
+          ) : null
+        }
+        numColumns={2}
+      />
     </Center>
   );
 
@@ -185,9 +195,15 @@ function Tabs() {
 
 const styles = StyleSheet.create({
   image: {
-    width: "20%",
-    aspectRatio: 1,
+    width: "100%",
+    aspectRatio:1,
+    borderRadius: 10,
   },
+  itemContainer:{
+    width:"48%",
+    padding:5,
+    left:2
+  }
 });
 
 export default Tabs;

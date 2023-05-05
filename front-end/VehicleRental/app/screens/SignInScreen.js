@@ -51,10 +51,14 @@ function SignInScreen() {
         setUser(user);
 
         if (value == user.email) {
-          if(user.user_type=="Owner"){
+          if (user.user_type == "Owner") {
             navigation.navigate("OwnerHome");
-          }else{
+            setValue("");
+            setPassword("");
+          } else {
             navigation.navigate("RenterHome");
+            setValue("");
+            setPassword("");
           }
         }
       } else {
@@ -67,13 +71,14 @@ function SignInScreen() {
           headers: { "Content-Type": "application/json" },
         });
 
-        while(!res.ok) {
+        while (!res.ok) {
           if (!notify.isActive(id)) {
             return notify.show({
               id,
-              title: "Incorrect username/email and/or password!",
+              title: "Incorrect username and/or password!",
               avoidKeyboard: true,
               duration: 3000,
+              buttonStyle: { backgroundColor: "#5cb85c" },
             });
           }
         }
@@ -83,10 +88,14 @@ function SignInScreen() {
         setUser(user);
 
         if (value == user.username) {
-          if(user.user_type=="Owner"){
+          if (user.user_type == "Owner") {
             navigation.navigate("OwnerHome");
-          }else{
+            setValue("");
+            setPassword("");
+          } else {
             navigation.navigate("RenterHome");
+            setValue("");
+            setPassword("");
           }
         }
       }
@@ -141,6 +150,9 @@ function SignInScreen() {
 
             <Input
               color={"white"}
+              isRequired={true}
+              minLength={8}
+              maxLength={16}
               value={password}
               onChangeText={setPassword}
               placeholder={"Password"}

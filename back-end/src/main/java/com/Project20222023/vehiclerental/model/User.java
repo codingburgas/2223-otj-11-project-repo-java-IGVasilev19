@@ -1,37 +1,37 @@
 package com.Project20222023.vehiclerental.model;
 
 import jakarta.persistence.*;
-import org.springframework.lang.Nullable;
 
 @Entity
 public class User {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private int id;
+    @Column(name="first_name", nullable = false)
     private String first_name;
+    @Column(name="last_name", nullable = false)
     private String last_name;
     @Column(name="username",unique = true)
     private String username;
     @Column(name="email",unique = true)
     private String email;
+    @Column(name="password", nullable = false)
     private String password;
+    @Column(name="date_of_birth", nullable = false)
     private String date_of_birth;
+    @Column(name="user_type", nullable = false)
     private String user_type;
-
-    public String getUser_type() {
-        return user_type;
-    }
-
-    public void setUser_type(String user_type) {
-        this.user_type = user_type;
-    }
-
+    @Column(name="country", nullable = false)
     private String country;
+    @Column(name="city", nullable = false)
     private String city;
+    @Column(name="address", nullable = false)
     private String address;
+    @Column(name="phone_num", nullable = false)
     private String phone_num;
+    @Column(name="post_code", nullable = false)
     private String post_code;
-    @Nullable
+    @Column(name="profile_pic", nullable = false)
     private String profile_pic;
 
 
@@ -141,5 +141,12 @@ public class User {
 
     public void setPost_code(String post_code) {
         this.post_code = post_code;
+    }
+    public String getUser_type() {
+        return user_type;
+    }
+
+    public void setUser_type(String user_type) {
+        this.user_type = user_type;
     }
 }

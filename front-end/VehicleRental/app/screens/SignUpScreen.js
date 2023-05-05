@@ -12,9 +12,17 @@ import {
 } from "native-base";
 import { MaterialIcons } from "@expo/vector-icons";
 import FontAwesome from "react-native-vector-icons/FontAwesome";
+import { Entypo } from "@expo/vector-icons";
 import SelectDropdown from "react-native-select-dropdown";
-import { StyleSheet, Text, ScrollView } from "react-native";
+import {
+  StyleSheet,
+  Text,
+  ScrollView,
+  TouchableOpacity,
+  Image,
+} from "react-native";
 import { TextInputMask } from "react-native-masked-text";
+import * as ImagePicker from "expo-image-picker";
 
 function SignUpScreen(props) {
   const notify = useToast();
@@ -51,6 +59,8 @@ function SignUpScreen(props) {
 
   const [post_code, setPostCode] = useState("");
 
+  const [profile_pic, setProfilePic] = useState("");
+
   const userTypes = ["Owner", "Renter"];
 
   const navigation = useNavigation();
@@ -82,6 +92,7 @@ function SignUpScreen(props) {
         address,
         phone_num,
         post_code,
+        profile_pic,
       };
 
       const res = await fetch("http://192.168.1.5:8080/user/add", {
@@ -113,6 +124,29 @@ function SignUpScreen(props) {
           buttonStyle: { backgroundColor: "#5cb85c" },
         });
       }
+    }
+  };
+
+  const imagePick = async (pos) => {
+    const { status } = await ImagePicker.requestMediaLibraryPermissionsAsync();
+    if (status !== "granted") {
+      alert("Sorry, we need media library permissions to make this work!");
+      return;
+    }
+
+    let result = await ImagePicker.launchImageLibraryAsync({
+      mediaTypes: ImagePicker.MediaTypeOptions.All,
+      allowsEditing: true,
+      flex: 1,
+      height: 200,
+      width: 200,
+      quality: 1,
+    });
+
+    setProfilePic(result.assets[0].uri);
+
+    if (result.canceled) {
+      return;
     }
   };
 
@@ -149,6 +183,20 @@ function SignUpScreen(props) {
                 Privacy Policy
               </Text>
             </Text>
+
+            <TouchableOpacity onPress={imagePick}>
+              <Image
+                style={styles.image}
+                source={
+                  profile_pic
+                    ? { uri: profile_pic }
+                    : require("../assets/images/user.png")
+                }
+              />
+              <Box style={{ alignItems: "flex-end", top: -18 }}>
+                <Entypo name="pencil" size={20} color="white" />
+              </Box>
+            </TouchableOpacity>
 
             <HStack space={2}>
               <Input
@@ -190,6 +238,9 @@ function SignUpScreen(props) {
 
             <Input
               color={"white"}
+              isRequired={true}
+              minLength={8}
+              maxLength={16}
               value={password}
               onChangeText={setPassword}
               placeholder={"Password"}
@@ -396,6 +447,13 @@ const styles = StyleSheet.create({
     borderColor: "#363636",
     borderWidth: 1,
     borderRadius: 5,
+  },
+  image: {
+    width: 110,
+    height: 110,
+    borderRadius: 55,
+    borderColor: "white",
+    borderWidth: 3,
   },
   text1: {
     fontSize: 35,
