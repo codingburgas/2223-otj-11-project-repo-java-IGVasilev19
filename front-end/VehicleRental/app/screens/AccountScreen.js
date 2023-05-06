@@ -1,7 +1,6 @@
 import { Text, StyleSheet, Image, TouchableOpacity } from "react-native";
-import { Box, VStack, Input, Button } from "native-base";
+import { Box, VStack, Input } from "native-base";
 import * as ImagePicker from "expo-image-picker";
-import React, { useState } from "react";
 import { Entypo } from "@expo/vector-icons";
 import { useCore } from "../providers/CoreProvider";
 

@@ -71,7 +71,7 @@ function SignInScreen() {
           headers: { "Content-Type": "application/json" },
         });
 
-        while (!res.ok) {
+        if(!res.ok) {
           if (!notify.isActive(id)) {
             return notify.show({
               id,

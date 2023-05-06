@@ -78,47 +78,73 @@ function SignUpScreen(props) {
   };
 
   const onSignUpPressed = async () => {
-    if (password == confirmPassword) {
-      const user = {
-        user_type,
-        first_name,
-        last_name,
-        username,
-        email,
-        password,
-        date_of_birth,
-        country,
-        city,
-        address,
-        phone_num,
-        post_code,
-        profile_pic,
-      };
+    if (
+      first_name != "" &&
+      last_name != "" &&
+      username != "" &&
+      email != "" &&
+      password != "" &&
+      date_of_birth != "" &&
+      user_type != "" &&
+      country != "" &&
+      city != "" &&
+      address != "" &&
+      phone_num != "" &&
+      post_code != "" &&
+      confirmPassword != ""
+    ) {
+      if (password == confirmPassword) {
+        const user = {
+          user_type,
+          first_name,
+          last_name,
+          username,
+          email,
+          password,
+          date_of_birth,
+          country,
+          city,
+          address,
+          phone_num,
+          post_code,
+          profile_pic,
+        };
 
-      const res = await fetch("http://192.168.1.5:8080/user/add", {
-        method: "POST",
-        body: JSON.stringify(user),
-        headers: { "Content-Type": "application/json" },
-      });
+        const res = await fetch("http://192.168.1.5:8080/user/add", {
+          method: "POST",
+          body: JSON.stringify(user),
+          headers: { "Content-Type": "application/json" },
+        });
 
-      if (!res.ok) {
+        if (!res.ok) {
+          if (!notify.isActive(id)) {
+            return notify.show({
+              id,
+              title: "User already exist!",
+              avoidKeyboard: true,
+              duration: 3000,
+              buttonStyle: { backgroundColor: "#5cb85c" },
+            });
+          }
+        } else {
+          navigation.navigate("Confirm email");
+        }
+      } else {
         if (!notify.isActive(id)) {
           return notify.show({
             id,
-            title: "User already exist!",
+            title: "Passwords don't match!",
             avoidKeyboard: true,
             duration: 3000,
             buttonStyle: { backgroundColor: "#5cb85c" },
           });
         }
-      } else {
-        navigation.navigate("Confirm email");
       }
     } else {
       if (!notify.isActive(id)) {
         return notify.show({
           id,
-          title: "Passwords don't match!",
+          title: "Please fill up all blank fields!",
           avoidKeyboard: true,
           duration: 3000,
           buttonStyle: { backgroundColor: "#5cb85c" },
@@ -200,7 +226,7 @@ function SignUpScreen(props) {
 
             <HStack space={2}>
               <Input
-                placeholder="Firstname"
+                placeholder="First name"
                 w={"41%"}
                 color={"white"}
                 value={first_name}
@@ -209,7 +235,7 @@ function SignUpScreen(props) {
               />
 
               <Input
-                placeholder="Lastname"
+                placeholder="Last name"
                 w={"41%"}
                 color={"white"}
                 value={last_name}
@@ -269,7 +295,7 @@ function SignUpScreen(props) {
               color={"white"}
               value={confirmPassword}
               onChangeText={setConfirmPassword}
-              placeholder={"Password"}
+              placeholder={"Confirm password"}
               keyboardType={"password"}
               returnKeyType={"done"}
               placeholderTextColor="white"
@@ -293,7 +319,7 @@ function SignUpScreen(props) {
             <HStack space={2}>
               <TextInputMask
                 type={"datetime"}
-                placeholder="DateOfBirth"
+                placeholder="Date of birth"
                 placeholderTextColor="white"
                 color={"white"}
                 options={{
@@ -369,28 +395,49 @@ function SignUpScreen(props) {
             />
 
             <HStack space={2}>
-              <Input
-                color={"white"}
-                placeholder="PhoneNumber"
-                w={"41%"}
-                value={phone_num}
-                onChangeText={setPhoneNumber}
+              <TextInputMask
+                type={"cel-phone"}
+                placeholder="Phone number"
+                color="white"
                 keyboardType={"phone-pad"}
                 placeholderTextColor="white"
+                options={{
+                  maskType: "INTERNATIONAL",
+                  withDDD: true,
+                }}
+                value={phone_num}
+                onChangeText={setPhoneNumber}
+                style={{
+                  borderWidth: 0.8,
+                  borderColor: "white",
+                  borderRadius: 4,
+                  width: "41%",
+                  paddingHorizontal: 10,
+                  fontSize: 12,
+                }}
               />
 
-              <Input
+              <TextInputMask
+                type={"zip-code"}
                 color={"white"}
-                placeholder="PostCode"
-                w={"41%"}
-                value={post_code}
-                onChangeText={setPostCode}
+                placeholder="Post code"
                 keyboardType={"numeric"}
                 placeholderTextColor="white"
+                value={post_code}
+                onChangeText={setPostCode}
+                style={{
+                  borderWidth: 0.8,
+                  borderColor: "white",
+                  borderRadius: 4,
+                  width: "41%",
+                  paddingHorizontal: 10,
+                  fontSize: 12,
+                  height: 47,
+                }}
               />
             </HStack>
 
-            <Button w="85%" onPress={onSignUpPressed} bgColor="darkBlue.600">
+            <Button w="85%" bgColor="darkBlue.600" onPress={onSignUpPressed}>
               Sign Up
             </Button>
 
