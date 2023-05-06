@@ -10,6 +10,8 @@ import SignUpScreen from '../screens/SignUpScreen';
 import OwnerHomeScreen from '../screens/OwnerHomeScreen';
 import RenterHomeScreen from '../screens/RenterHomeScreen';
 import AccountScreen from '../screens/AccountScreen';
+import OwnerVehicleDetailsScreen from '../screens/OwnerVehicleDetailsScreen';
+import RenterVehicleDetailsScreen from '../screens/RenterVehicleDetailsScreen';
 
 const Stack = createNativeStackNavigator();
 
@@ -24,6 +26,8 @@ const Navigation = () => {
         <Stack.Screen name="Reset password" component={ResetPasswordScreen}/>
         <Stack.Screen name="OwnerHome" component={OwnerHomeScreen}/>
         <Stack.Screen name="RenterHome" component={RenterHomeScreen}/>
+        <Stack.Screen name="OwnerVehicleDatails" component={OwnerVehicleDetailsScreen}/>
+        <Stack.Screen name="RenterVehicleDetails" component={RenterVehicleDetailsScreen}/>
         <Stack.Screen name="Account" component={AccountScreen}/>
       </Stack.Navigator>
     </NavigationContainer>

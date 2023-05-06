@@ -1,4 +1,13 @@
-import { Text, StyleSheet, Image, TouchableOpacity } from "react-native";
+import {
+  Text,
+  StyleSheet,
+  Image,
+  TouchableOpacity,
+  Dimensions,
+  StatusBar,
+  Animated,
+  FlatList,
+} from "react-native";
 import {
   Box,
   HStack,
@@ -6,20 +15,24 @@ import {
   Pressable,
   Center,
   Modal,
-  FormControl,
   Input,
   Button,
   Icon,
   VStack,
+  useColorModeValue,
 } from "native-base";
 import { AntDesign } from "@expo/vector-icons";
-import React, { useState } from "react";
+import { FontAwesome5 } from "@expo/vector-icons";
+import { TabView, SceneMap } from "react-native-tab-view";
+import { MaterialCommunityIcons } from "@expo/vector-icons";
+import { Ionicons } from "@expo/vector-icons";
 import * as ImagePicker from "expo-image-picker";
 import { useNavigation } from "@react-navigation/native";
 import SelectDropdown from "react-native-select-dropdown";
 import FontAwesome from "react-native-vector-icons/FontAwesome";
-import Tabs from "../components/Tabs";
+import { TextInputMask } from "react-native-masked-text";
 import { useCore } from "../providers/CoreProvider";
+import React, { useEffect, useState } from "react";
 
 const HomeScreen = () => {
   const navigation = useNavigation();
@@ -138,6 +151,191 @@ const HomeScreen = () => {
     }
   };
 
+  const onShowDetailsPressed = () => {
+    vehicles.map((vehicle) => {
+      if (vehicle.owner == user.username) {
+        navigation.navigate("OwnerVehicleDatails");
+      } else {
+        navigation.navigate("RenterVehicleDetails");
+      }
+    });
+  };
+
+  const FirstRoute = () => (
+    <Center my="5">
+      <FlatList
+        data={vehicles}
+        renderItem={({ item }) =>
+          item.vehicle_type == "Car" ? (
+            <TouchableOpacity
+              style={styles.itemContainer}
+              key={item.id}
+              onPress={onShowDetailsPressed}
+            >
+              <Image
+                style={styles.flatListImage}
+                source={{ uri: item.image1 }}
+              />
+            </TouchableOpacity>
+          ) : null
+        }
+        numColumns={2}
+      />
+    </Center>
+  );
+
+  const SecondRoute = () => (
+    <Center my="5">
+      <FlatList
+        data={vehicles}
+        renderItem={({ item }) =>
+          item.vehicle_type == "Motorcycle" ? (
+            <TouchableOpacity style={styles.itemContainer} key={item.id}>
+              <Image
+                style={styles.flatListImage}
+                source={{ uri: item.image1 }}
+              />
+            </TouchableOpacity>
+          ) : null
+        }
+        numColumns={2}
+      />
+    </Center>
+  );
+
+  const ThirdRoute = () => (
+    <Center my="5">
+      <FlatList
+        data={vehicles}
+        renderItem={({ item }) =>
+          item.vehicle_type == "Boat" ? (
+            <TouchableOpacity style={styles.itemContainer} key={item.id}>
+              <Image
+                style={styles.flatListImage}
+                source={{ uri: item.image1 }}
+              />
+            </TouchableOpacity>
+          ) : null
+        }
+        numColumns={2}
+      />
+    </Center>
+  );
+
+  const FourthRoute = () => (
+    <Center my="5">
+      <FlatList
+        data={vehicles}
+        renderItem={({ item }) =>
+          item.vehicle_type == "Plane" ? (
+            <TouchableOpacity style={styles.itemContainer} key={item.id}>
+              <Image
+                style={styles.flatListImage}
+                source={{ uri: item.image1 }}
+              />
+            </TouchableOpacity>
+          ) : null
+        }
+        numColumns={2}
+      />
+    </Center>
+  );
+
+  const initialLayout = {
+    width: Dimensions.get("window").width,
+  };
+  const renderScene = SceneMap({
+    0: FirstRoute,
+    1: SecondRoute,
+    2: ThirdRoute,
+    3: FourthRoute,
+  });
+
+  const [vehicles, setVehicles] = useState([]);
+  const [index, setIndex] = useState(0);
+  const [routes] = useState([
+    {
+      key: 0,
+      title: <FontAwesome5 name="car-side" size={26} color="#363636" />,
+    },
+    {
+      key: 1,
+      title: <FontAwesome5 name="motorcycle" size={26} color="#363636" />,
+    },
+    {
+      key: 2,
+      title: (
+        <MaterialCommunityIcons name="sail-boat" size={26} color="#363636" />
+      ),
+    },
+    {
+      key: 3,
+      title: <Ionicons name="airplane" size={26} color="#363636" />,
+    },
+  ]);
+
+  async function getVehicles() {
+    const res = await fetch("http://192.168.1.5:8080/vehicle/get", {
+      method: "POST",
+      headers: { "Content-Type": "application/json" },
+    });
+
+    if (!res.ok) return null;
+
+    const vehRes = await res.json();
+
+    setVehicles(vehRes);
+  }
+
+  useEffect(() => {
+    const interval = setInterval(async () => {
+      getVehicles();
+    }, 1000);
+
+    return () => clearInterval(interval);
+  }, []);
+
+  const renderTabBar = (props) => {
+    const inputRange = props.navigationState.routes.map((x, i) => i);
+    return (
+      <HStack style={{ width: "80%", alignSelf: "center" }}>
+        {props.navigationState.routes.map((route, i) => {
+          const opacity = props.position.interpolate({
+            inputRange,
+            outputRange: inputRange.map((inputIndex) =>
+              inputIndex === i ? 1 : 0.5
+            ),
+          });
+          const color =
+            index === i
+              ? useColorModeValue("#000", "#e5e5e5")
+              : useColorModeValue("#1f2937", "#a1a1aa");
+          const borderColor =
+            index === i ? "darkBlue.600" : useColorModeValue("#363636");
+          return (
+            <Box
+              borderBottomWidth="4"
+              borderColor={borderColor}
+              flex={1}
+              alignItems="center"
+              p="3"
+              cursor="pointer"
+              key={i}
+            >
+              <Animated.Text
+                style={{
+                  color,
+                }}
+              >
+                {route.title}
+              </Animated.Text>
+            </Box>
+          );
+        })}
+      </HStack>
+    );
+  };
+
   return (
     <Box style={styles.root}>
       <HStack top={12} space={115} alignItems="center" justifyContent="center">
@@ -178,7 +376,20 @@ const HomeScreen = () => {
           </Menu.Item>
         </Menu>
       </HStack>
-      <Tabs key="OwnerHomeScreen"/>
+      <TabView
+        navigationState={{
+          index,
+          routes,
+        }}
+        renderScene={renderScene}
+        renderTabBar={renderTabBar}
+        onIndexChange={setIndex}
+        initialLayout={initialLayout}
+        style={{
+          marginTop: StatusBar.currentHeight,
+          top: 30,
+        }}
+      />
       <Center>
         <Button
           style={styles.addButton}
@@ -256,15 +467,28 @@ const HomeScreen = () => {
                     placeholderTextColor="white"
                   />
 
-                  <Input
-                    right={1}
-                    placeholder="PricePerDay"
+                  <TextInputMask
+                    type={"money"}
+                    placeholderTextColor="white"
+                    placeholder="Price per day"
                     selectionColor="white"
                     color={"white"}
-                    w={"49%"}
+                    options={{
+                      precision: 2,
+                      separator: ",",
+                      unit: "$",
+                    }}
                     value={price_per_day}
                     onChangeText={setPricePerDay}
-                    placeholderTextColor="white"
+                    style={{
+                      right: 4,
+                      borderWidth: 0.8,
+                      borderColor: "white",
+                      borderRadius: 4,
+                      width: "49%",
+                      paddingHorizontal: 10,
+                      fontSize: 12,
+                    }}
                   />
                 </HStack>
                 <Input
@@ -277,14 +501,26 @@ const HomeScreen = () => {
                   onChangeText={setAdditionalInfo}
                   placeholderTextColor="white"
                 />
-                <Input
+                <TextInputMask
+                  type={"only-numbers"}
+                  maxLength={17}
                   placeholder="Vin"
                   selectionColor="white"
+                  placeholderTextColor="white"
                   color={"white"}
-                  w={"100%"}
                   value={vin}
                   onChangeText={setVin}
-                  placeholderTextColor="white"
+                  style={{
+                    right: 4,
+                    borderWidth: 0.8,
+                    borderColor: "white",
+                    borderRadius: 4,
+                    width: "100%",
+                    height:47,
+                    left:0.5,
+                    paddingHorizontal: 10,
+                    fontSize: 12,
+                  }}
                 />
                 <HStack
                   justifyContent={"center"}
@@ -523,6 +759,16 @@ const styles = StyleSheet.create({
     flex: 1,
     justifyContent: "center",
     alignItems: "center",
+  },
+  flatListImage: {
+    width: "100%",
+    aspectRatio: 1,
+    borderRadius: 10,
+  },
+  itemContainer: {
+    width: "48%",
+    padding: 5,
+    left: 2,
   },
   image: {
     width: 50,
