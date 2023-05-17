@@ -25,8 +25,8 @@ const Navigation = () => {
         <Stack.Screen name="Confirm email" component={ConfirmEmailScreen}/>
         <Stack.Screen name="Reset password" component={ResetPasswordScreen}/>
         <Stack.Screen name="OwnerHome" component={OwnerHomeScreen}/>
-        <Stack.Screen name="RenterHome" component={RenterHomeScreen}/>
         <Stack.Screen name="OwnerVehicleDatails" component={OwnerVehicleDetailsScreen}/>
+        <Stack.Screen name="RenterHome" component={RenterHomeScreen}/>
         <Stack.Screen name="RenterVehicleDetails" component={RenterVehicleDetailsScreen}/>
         <Stack.Screen name="Account" component={AccountScreen}/>
       </Stack.Navigator>

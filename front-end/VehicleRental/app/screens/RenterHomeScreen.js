@@ -1,4 +1,13 @@
-import { Text, StyleSheet, Image, TouchableOpacity, Dimensions,Animated, StatusBar, FlatList } from "react-native";
+import {
+  Text,
+  StyleSheet,
+  Image,
+  TouchableOpacity,
+  Dimensions,
+  Animated,
+  StatusBar,
+  FlatList,
+} from "react-native";
 import {
   Box,
   HStack,
@@ -15,9 +24,10 @@ import { Ionicons } from "@expo/vector-icons";
 import { FontAwesome5 } from "@expo/vector-icons";
 import { useCore } from "../providers/CoreProvider";
 
-const HomeScreen = () => {
+function RenterHomeScreen() {
   const navigation = useNavigation();
   const { user, setUser } = useCore();
+  const { vehicle, setVehicle } = useCore();
 
   const onAccountPressed = () => {
     navigation.navigate("Account");
@@ -27,26 +37,21 @@ const HomeScreen = () => {
     navigation.navigate("Sign In");
   };
 
-  const onShowDetailsPressed = () =>{
-    vehicles.map((vehicle)=>{
-      if(vehicle.owner==user.username){
-        navigation.navigate("OwnerVehicleDetails");
-      }else{
-        navigation.navigate("RenterVehicleDetails");
-      }
-    })
-  }
+  const onShowDetailsPressed = (item) => {
+    setVehicle(item);
+    navigation.navigate("RenterVehicleDetails");
+  };
 
   const FirstRoute = () => (
     <Center my="5">
       <FlatList
+        style={styles.vehiclesContainer}
         data={vehicles}
         renderItem={({ item }) =>
-          item.vehicle_type == "Car" ? (
+          item.vehicle_type == "Car" && item.is_rented == 0 ? (
             <TouchableOpacity
-              style={styles.itemContainer}
               key={item.id}
-              onPress={onShowDetailsPressed}
+              onPress={() => onShowDetailsPressed(item)}
             >
               <Image
                 style={styles.flatListImage}
@@ -65,7 +70,7 @@ const HomeScreen = () => {
       <FlatList
         data={vehicles}
         renderItem={({ item }) =>
-          item.vehicle_type == "Motorcycle" ? (
+          item.vehicle_type == "Motorcycle" && item.is_rented == 0 ? (
             <TouchableOpacity style={styles.itemContainer} key={item.id}>
               <Image
                 style={styles.flatListImage}
@@ -84,7 +89,7 @@ const HomeScreen = () => {
       <FlatList
         data={vehicles}
         renderItem={({ item }) =>
-          item.vehicle_type == "Boat" ? (
+          item.vehicle_type == "Boat" && item.is_rented == 0 ? (
             <TouchableOpacity style={styles.itemContainer} key={item.id}>
               <Image
                 style={styles.flatListImage}
@@ -103,7 +108,7 @@ const HomeScreen = () => {
       <FlatList
         data={vehicles}
         renderItem={({ item }) =>
-          item.vehicle_type == "Plane" ? (
+          item.vehicle_type == "Plane" && item.is_rented == 0 ? (
             <TouchableOpacity style={styles.itemContainer} key={item.id}>
               <Image
                 style={styles.flatListImage}
@@ -268,7 +273,7 @@ const HomeScreen = () => {
       />
     </Box>
   );
-};
+}
 
 const styles = StyleSheet.create({
   root: {
@@ -281,14 +286,10 @@ const styles = StyleSheet.create({
     alignItems: "center",
   },
   flatListImage: {
-    width: "100%",
+    width: 150,
     aspectRatio: 1,
     borderRadius: 10,
-  },
-  itemContainer: {
-    width: "48%",
-    padding: 5,
-    left: 2,
+    margin: 10
   },
   image: {
     width: 50,
@@ -298,4 +299,4 @@ const styles = StyleSheet.create({
     borderWidth: 3,
   },
 });
-export default HomeScreen;
+export default RenterHomeScreen;

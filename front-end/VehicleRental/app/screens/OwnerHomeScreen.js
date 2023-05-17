@@ -10,6 +10,7 @@ import {
 } from "react-native";
 import {
   Box,
+  useToast,
   HStack,
   Menu,
   Pressable,
@@ -34,9 +35,10 @@ import { TextInputMask } from "react-native-masked-text";
 import { useCore } from "../providers/CoreProvider";
 import React, { useEffect, useState } from "react";
 
-const HomeScreen = () => {
+function OwnerHomeScreen  () {
   const navigation = useNavigation();
   const { user, setUser } = useCore();
+  const { vehicle, setVehicle } = useCore();
   const [showModal, setShowModal] = useState(false);
   const [brand, setBrand] = useState("");
   const [model, setModel] = useState("");
@@ -52,6 +54,8 @@ const HomeScreen = () => {
   const [price_per_day, setPricePerDay] = useState("");
   const [additional_info, setAdditionalInfo] = useState("");
   const vehicleTypes = ["Car", "Motorcycle", "Boat", "Plane"];
+  const notify = useToast();
+  const id = "notify";
 
   const onAccountPressed = () => {
     navigation.navigate("Account");
@@ -62,50 +66,76 @@ const HomeScreen = () => {
   };
 
   const onSavePressed = async () => {
-    const vehicle = {
-      vehicle_type,
-      brand,
-      model,
-      price_per_day,
-      additional_info,
-      vin,
-      image1,
-      image2,
-      image3,
-      image4,
-      image5,
-      image6,
-      owner,
-    };
-    const res = await fetch("http://192.168.1.5:8080/vehicle/add", {
-      method: "POST",
-      body: JSON.stringify(vehicle),
-      headers: { "Content-Type": "application/json" },
-    });
+    if (
+      vehicle_type != "" &&
+      brand != "" &&
+      model != "" &&
+      price_per_day != "" &&
+      additional_info != "" &&
+      vin != "" &&
+      image1 != "" &&
+      image2 != "" &&
+      image3 != "" &&
+      image4 != "" &&
+      image5 != "" &&
+      image6 != "" &&
+      owner != ""
+    ) {
+      const vehicle = {
+        vehicle_type,
+        brand,
+        model,
+        price_per_day,
+        additional_info,
+        vin,
+        image1,
+        image2,
+        image3,
+        image4,
+        image5,
+        image6,
+        owner,
+      };
+      const res = await fetch("http://192.168.1.5:8080/vehicle/add", {
+        method: "POST",
+        body: JSON.stringify(vehicle),
+        headers: { "Content-Type": "application/json" },
+      });
 
-    if (!res.ok) {
+      if (!res.ok) {
+        if (!notify.isActive(id)) {
+          return notify.show({
+            id,
+            title: "Vehicle already exist!",
+            avoidKeyboard: true,
+            duration: 3000,
+            buttonStyle: { backgroundColor: "#5cb85c" },
+          });
+        }
+      } else {
+        setShowModal(false);
+        setBrand("");
+        setModel("");
+        setPricePerDay("");
+        setAdditionalInfo("");
+        setVin("");
+        setImage1("");
+        setImage2("");
+        setImage3("");
+        setImage4("");
+        setImage5("");
+        setImage6("");
+      }
+    }else {
       if (!notify.isActive(id)) {
         return notify.show({
           id,
-          title: "Vehicle already exist!",
+          title: "Please input all required information!",
           avoidKeyboard: true,
           duration: 3000,
           buttonStyle: { backgroundColor: "#5cb85c" },
         });
       }
-    } else {
-      setShowModal(false);
-      setBrand("");
-      setModel("");
-      setPricePerDay("");
-      setAdditionalInfo("");
-      setVin("");
-      setImage1("");
-      setImage2("");
-      setImage3("");
-      setImage4("");
-      setImage5("");
-      setImage6("");
     }
   };
 
@@ -152,13 +182,10 @@ const HomeScreen = () => {
   };
 
   const onShowDetailsPressed = () => {
-    vehicles.map((vehicle) => {
-      if (vehicle.owner == user.username) {
+    vehicles.map((item) => {
         navigation.navigate("OwnerVehicleDatails");
-      } else {
-        navigation.navigate("RenterVehicleDetails");
-      }
-    });
+        setVehicle(item);
+    })
   };
 
   const FirstRoute = () => (
@@ -166,7 +193,7 @@ const HomeScreen = () => {
       <FlatList
         data={vehicles}
         renderItem={({ item }) =>
-          item.vehicle_type == "Car" ? (
+          item.vehicle_type == "Car" && item.owner == user.username ? (
             <TouchableOpacity
               style={styles.itemContainer}
               key={item.id}
@@ -189,7 +216,7 @@ const HomeScreen = () => {
       <FlatList
         data={vehicles}
         renderItem={({ item }) =>
-          item.vehicle_type == "Motorcycle" ? (
+          item.vehicle_type == "Motorcycle" && item.owner == user.username ? (
             <TouchableOpacity style={styles.itemContainer} key={item.id}>
               <Image
                 style={styles.flatListImage}
@@ -208,7 +235,7 @@ const HomeScreen = () => {
       <FlatList
         data={vehicles}
         renderItem={({ item }) =>
-          item.vehicle_type == "Boat" ? (
+          item.vehicle_type == "Boat" && item.owner == user.username ? (
             <TouchableOpacity style={styles.itemContainer} key={item.id}>
               <Image
                 style={styles.flatListImage}
@@ -227,7 +254,7 @@ const HomeScreen = () => {
       <FlatList
         data={vehicles}
         renderItem={({ item }) =>
-          item.vehicle_type == "Plane" ? (
+          item.vehicle_type == "Plane" && item.owner == user.username ? (
             <TouchableOpacity style={styles.itemContainer} key={item.id}>
               <Image
                 style={styles.flatListImage}
@@ -516,8 +543,8 @@ const HomeScreen = () => {
                     borderColor: "white",
                     borderRadius: 4,
                     width: "100%",
-                    height:47,
-                    left:0.5,
+                    height: 47,
+                    left: 0.5,
                     paddingHorizontal: 10,
                     fontSize: 12,
                   }}
@@ -804,4 +831,4 @@ const styles = StyleSheet.create({
   dropdown1RowStyle: { backgroundColor: "#363636" },
   dropdown1RowTxtStyle: { color: "white", textAlign: "left" },
 });
-export default HomeScreen;
+export default OwnerHomeScreen;

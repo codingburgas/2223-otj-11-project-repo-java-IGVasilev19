@@ -4,7 +4,7 @@ import * as ImagePicker from "expo-image-picker";
 import { Entypo } from "@expo/vector-icons";
 import { useCore } from "../providers/CoreProvider";
 
-const AccountScreen = (props) => {
+function AccountScreen (props){
   const { user, setUser } = useCore();
 
   const imagePick = async () => {

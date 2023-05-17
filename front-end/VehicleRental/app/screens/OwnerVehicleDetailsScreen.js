@@ -1,41 +1,87 @@
-import { Text, StyleSheet, FlatList } from "react-native";
-import { Box } from "native-base";
+import {
+  Text,
+  StyleSheet,
+  FlatList,
+  Image,
+  useWindowDimensions,
+  ScrollView,
+} from "react-native";
+import { Box, Button, VStack, useToast } from "native-base";
+import { useCore } from "../providers/CoreProvider";
+import { useNavigation } from "@react-navigation/native";
 import React, { useEffect, useState } from "react";
 
 const OwnerVehicleDetailScreen = () => {
+  const navigation = useNavigation();
+  const { vehicle, setVehicle } = useCore();
+  const notify = useToast();
+  const id = "notify";
+  const data = [
+    vehicle.image1,
+    vehicle.image2,
+    vehicle.image3,
+    vehicle.image4,
+    vehicle.image5,
+    vehicle.image6,
+  ];
+  const { width } = useWindowDimensions();
 
-  const [vehicles, setVehicles] = useState([]);
-
-  async function getVehicles() {
-    const res = await fetch("http://192.168.1.5:8080/vehicle/get", {
-      method: "POST",
+  const onDeleteVehiclePressed = async () => {
+    const res = await fetch("http://192.168.1.5:8080/vehicle/delete", {
+      method: "DELETE",
+      body: JSON.stringify({
+        vin: vehicle.vin,
+      }),
       headers: { "Content-Type": "application/json" },
     });
-
-    if (!res.ok) return;
-
-    const vehRes = await res.json();
-
-    setVehicles(vehRes);
-  }
-
-  useEffect(() => {
-    const interval = setInterval(async () => {
-      getVehicles();
-    }, 1000);
-
-    return () => clearInterval(interval);
-  }, []);
+    if (res.ok) {
+      navigation.navigate("OwnerHome");
+      if (!notify.isActive(id)) {
+        return notify.show({
+          id,
+          title: "Vehicle deleted successfully!",
+          avoidKeyboard: true,
+          duration: 3000,
+          buttonStyle: { backgroundColor: "#5cb85c" },
+        });
+      }
+    }
+  };
 
   return (
     <Box style={styles.root}>
       <Box style={styles.container1}>
         <Text style={styles.text1}>Vehicle details</Text>
-        <Box>
+        <Box style={styles.container2}>
           <FlatList
-            data={vehicles.image2}
+            data={data}
+            renderItem={({ item }) => (
+              <Image
+                source={{ uri: item }}
+                style={{ width: 326.5, aspectRatio: 1, borderRadius: 5 }}
+              />
+            )}
+            horizontal
+            showsHorizontalScrollIndicator={false}
+            pagingEnabled
           />
         </Box>
+        <ScrollView style={styles.container3}>
+          <VStack alignItems={"center"} space={3}>
+            <Text style={styles.title}>
+              {vehicle.brand} {vehicle.model}
+            </Text>
+            <Text style={styles.price}>{vehicle.price_per_day}</Text>
+            <Text style={styles.info}>{vehicle.additional_info}</Text>
+            <Button
+              w="85%"
+              onPress={onDeleteVehiclePressed}
+              bgColor="error.700"
+            >
+              Delete vehicle
+            </Button>
+          </VStack>
+        </ScrollView>
       </Box>
     </Box>
   );
@@ -52,10 +98,44 @@ const styles = StyleSheet.create({
     margin: 15,
     alignItems: "center",
   },
+  container2: {
+    top: 20,
+    width: "90%",
+  },
+  container3: {
+    top: 30,
+    width: "90%",
+    backgroundColor: "#363636",
+
+    borderColor: "#363636",
+    borderWidth: 1,
+    borderRadius: 5,
+
+    paddingTop: 20,
+    paddingBottom: 20,
+  },
   text1: {
     fontSize: 28,
     color: "white",
     fontWeight: "bold",
+  },
+  title: {
+    color: "white",
+    fontSize: 34,
+    fontWeight: "500",
+    marginVertical: 10,
+  },
+  price: {
+    color: "white",
+    fontWeight: "500",
+    fontSize: 16,
+  },
+  info: {
+    color: "white",
+    marginVertical: 10,
+    fontSize: 18,
+    lineHeight: 30,
+    fontWeight: "300",
   },
 });
 
