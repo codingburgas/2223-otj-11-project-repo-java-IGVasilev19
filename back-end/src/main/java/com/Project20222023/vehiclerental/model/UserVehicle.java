@@ -1,13 +1,9 @@
 package com.Project20222023.vehiclerental.model;
 
-import jakarta.persistence.*;
 
-@Entity
-public class Vehicle {
-
-    @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
+public class UserVehicle {
     private int id;
+    private String username;
     private String vehicle_type;
     private String brand;
     private String model;
@@ -18,36 +14,11 @@ public class Vehicle {
     private String image4;
     private String image5;
     private String image6;
-    private boolean is_rented = false;
+    private boolean is_rented;
     private String owner;
     private String renter;
-    @Column (name="vin",unique = true)
     private String vin;
     private String price_per_day;
-
-    public String getPrice_per_day() {
-        return price_per_day;
-    }
-
-    public void setPrice_per_day(String price_per_day) {
-        this.price_per_day = price_per_day;
-    }
-
-    public String getVin() {
-        return vin;
-    }
-
-    public void setVin(String vin) {
-        this.vin = vin;
-    }
-
-    public String getOwner() {
-        return owner;
-    }
-
-    public void setOwner(String owner) {
-        this.owner = owner;
-    }
 
     public int getId() {
         return id;
@@ -55,6 +26,14 @@ public class Vehicle {
 
     public void setId(int id) {
         this.id = id;
+    }
+
+    public String getUsername() {
+        return username;
+    }
+
+    public void setUsername(String username) {
+        this.username = username;
     }
 
     public String getVehicle_type() {
@@ -137,7 +116,7 @@ public class Vehicle {
         this.image6 = image6;
     }
 
-    public boolean getIs_rented() {
+    public boolean isIs_rented() {
         return is_rented;
     }
 
@@ -145,8 +124,12 @@ public class Vehicle {
         this.is_rented = is_rented;
     }
 
-    public boolean isIs_rented() {
-        return is_rented;
+    public String getOwner() {
+        return owner;
+    }
+
+    public void setOwner(String owner) {
+        this.owner = owner;
     }
 
     public String getRenter() {
@@ -155,5 +138,21 @@ public class Vehicle {
 
     public void setRenter(String renter) {
         this.renter = renter;
+    }
+
+    public String getVin() {
+        return vin;
+    }
+
+    public void setVin(String vin) {
+        this.vin = vin;
+    }
+
+    public String getPrice_per_day() {
+        return price_per_day;
+    }
+
+    public void setPrice_per_day(String price_per_day) {
+        this.price_per_day = price_per_day;
     }
 }

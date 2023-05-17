@@ -10,6 +10,7 @@ import org.springframework.web.bind.annotation.RequestBody;
 
 import java.util.List;
 
+
 @Service
 public class VehicleServiceImpl implements VehicleService {
     @Autowired
@@ -26,5 +27,20 @@ public class VehicleServiceImpl implements VehicleService {
     @Override
     public ResponseEntity<List<Vehicle>> getVehicles() {
         return ResponseEntity.ok(vehicleRepository.findAll());
+    }
+
+    public void deleteVehicle(String vin){
+        vehicleRepository.deleteById(vehicleRepository.findByVin(vin).getId());
+    }
+
+    public void rentVehicle(String vin, String renter){
+        Vehicle vehicle = vehicleRepository.findByVin(vin);
+
+        if (vehicle == null) return;
+
+        vehicle.setRenter(renter);
+        vehicle.setIs_rented(true);
+
+        vehicleRepository.save(vehicle);
     }
 }

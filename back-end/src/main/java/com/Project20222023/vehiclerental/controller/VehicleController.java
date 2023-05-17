@@ -1,5 +1,7 @@
 package com.Project20222023.vehiclerental.controller;
 
+import com.Project20222023.vehiclerental.model.User;
+import com.Project20222023.vehiclerental.model.UserVehicle;
 import com.Project20222023.vehiclerental.model.Vehicle;
 import com.Project20222023.vehiclerental.service.VehicleService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -20,4 +22,14 @@ public class VehicleController {
 
     @PostMapping("/get")
     public ResponseEntity<List<Vehicle>> getVehicles() { return vehicleService.getVehicles(); }
+
+    @DeleteMapping("/delete")
+    public void deleteVehicle(@RequestBody Vehicle vehicle){
+        vehicleService.deleteVehicle(vehicle.getVin());
+    }
+
+    @PostMapping("/rent")
+    public void rentVehicle(@RequestBody UserVehicle uservehicle){
+        vehicleService.rentVehicle(uservehicle.getVin(), uservehicle.getUsername());
+    }
 }

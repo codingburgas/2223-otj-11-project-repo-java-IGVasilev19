@@ -9,4 +9,6 @@ public interface VehicleService {
     public ResponseEntity<Vehicle> saveVehicle(Vehicle vehicle);
 
     public ResponseEntity<List<Vehicle>> getVehicles();
+    public void deleteVehicle(String vin);
+    public void rentVehicle(String vin, String renter);
 }
