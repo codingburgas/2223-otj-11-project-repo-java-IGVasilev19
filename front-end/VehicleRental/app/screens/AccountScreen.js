@@ -25,7 +25,7 @@ function AccountScreen (props){
 
     if (result.canceled) return;
 
-    const res = await fetch("http://192.168.1.5:8080/user/setProfilePic", {
+    const res = await fetch("http://192.168.1.4:8080/user/setProfilePic", {
       method: "POST",
       body: JSON.stringify({
         username: user.username,

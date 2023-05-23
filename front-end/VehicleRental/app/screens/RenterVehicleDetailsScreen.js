@@ -1,5 +1,5 @@
-import { View, Text, StyleSheet, FlatList } from "react-native";
-import { Box, Button, VStack, useToast } from "native-base";
+import { View, Text, StyleSheet, FlatList, ScrollView, Image } from "react-native";
+import { Box, Button, VStack, useToast, Input } from "native-base";
 import { useCore } from "../providers/CoreProvider";
 import { useNavigation } from "@react-navigation/native";
 import React, { useEffect, useState } from "react";
@@ -10,13 +10,21 @@ const RenterVehicleDetailScreen = () => {
   const navigation = useNavigation();
   const notify = useToast();
   const id = "notify";
+  const data = [
+    vehicle.image1,
+    vehicle.image2,
+    vehicle.image3,
+    vehicle.image4,
+    vehicle.image5,
+    vehicle.image6,
+  ];
 
   const onRentVehiclePressed = async () => {
-    const res = await fetch("http://192.168.1.5:8080/vehicle/rent", {
+    const res = await fetch("http://192.168.1.4:8080/vehicle/rent", {
       method: "POST",
       body: JSON.stringify({
         vin: vehicle.vin,
-        username: user.username
+        username: user.username,
       }),
       headers: { "Content-Type": "application/json" },
     });
@@ -38,10 +46,50 @@ const RenterVehicleDetailScreen = () => {
     <Box style={styles.root}>
       <Box style={styles.container1}>
         <Text style={styles.text1}>Vehicle details</Text>
-        <FlatList data={vehicle} />
         <Box style={styles.container2}>
+          <FlatList
+            data={data}
+            renderItem={({ item }) => (
+              <Image
+                source={{ uri: item }}
+                style={{ width: 326.5, aspectRatio: 1, borderRadius: 5 }}
+              />
+            )}
+            horizontal
+            showsHorizontalScrollIndicator={false}
+            pagingEnabled
+          />
+        </Box>
+        <ScrollView style={styles.container3}>
           <VStack alignItems={"center"} space={3}>
-            <Text>{vehicle.additional_info}</Text>
+            <Text style={styles.title}>
+              {vehicle.brand} {vehicle.model}
+            </Text>
+            <Input
+              placeholder={"Price per day: " + vehicle.price_per_day}
+              selectionColor="white"
+              color={"white"}
+              w={"85%"}
+              placeholderTextColor="white"
+              editable={false}
+            />
+            <Input
+              placeholder={"Additional info: " + vehicle.additional_info}
+              selectionColor="white"
+              color={"white"}
+              w={"85%"}
+              placeholderTextColor="white"
+              editable={false}
+              multiline={true}
+            />
+            <Input
+              placeholder={"Vehicle owner: " + vehicle.owner}
+              selectionColor="white"
+              color={"white"}
+              w={"85%"}
+              placeholderTextColor="white"
+              editable={false}
+            />
             <Button
               w="85%"
               onPress={onRentVehiclePressed}
@@ -50,7 +98,7 @@ const RenterVehicleDetailScreen = () => {
               Rent vehicle
             </Button>
           </VStack>
-        </Box>
+        </ScrollView>
       </Box>
     </Box>
   );
@@ -68,6 +116,10 @@ const styles = StyleSheet.create({
     alignItems: "center",
   },
   container2: {
+    top: 20,
+    width: "90%",
+  },
+  container3: {
     top: 30,
     width: "90%",
     backgroundColor: "#363636",
@@ -83,6 +135,12 @@ const styles = StyleSheet.create({
     fontSize: 28,
     color: "white",
     fontWeight: "bold",
+  },
+  title: {
+    color: "white",
+    fontSize: 34,
+    fontWeight: "500",
+    marginVertical: 10,
   },
 });
 

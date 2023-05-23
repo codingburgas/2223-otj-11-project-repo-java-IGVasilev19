@@ -6,7 +6,7 @@ import {
   useWindowDimensions,
   ScrollView,
 } from "react-native";
-import { Box, Button, VStack, useToast } from "native-base";
+import { Box, Button, VStack, useToast, Input } from "native-base";
 import { useCore } from "../providers/CoreProvider";
 import { useNavigation } from "@react-navigation/native";
 import React, { useEffect, useState } from "react";
@@ -27,7 +27,7 @@ const OwnerVehicleDetailScreen = () => {
   const { width } = useWindowDimensions();
 
   const onDeleteVehiclePressed = async () => {
-    const res = await fetch("http://192.168.1.5:8080/vehicle/delete", {
+    const res = await fetch("http://192.168.1.4:8080/vehicle/delete", {
       method: "DELETE",
       body: JSON.stringify({
         vin: vehicle.vin,
@@ -71,8 +71,30 @@ const OwnerVehicleDetailScreen = () => {
             <Text style={styles.title}>
               {vehicle.brand} {vehicle.model}
             </Text>
-            <Text style={styles.price}>{vehicle.price_per_day}</Text>
-            <Text style={styles.info}>{vehicle.additional_info}</Text>
+            <Input
+              placeholder={"Price per day: " + vehicle.price_per_day}
+              selectionColor="white"
+              color={"white"}
+              w={"85%"}
+              placeholderTextColor="white"
+              editable={false}
+            />
+            <Input
+              placeholder={"Additional info: " + vehicle.additional_info}
+              selectionColor="white"
+              color={"white"}
+              w={"85%"}
+              placeholderTextColor="white"
+              editable={false}
+            />
+            <Input
+              placeholder={"Currently rented by: " + vehicle.renter}
+              selectionColor="white"
+              color={"white"}
+              w={"85%"}
+              placeholderTextColor="white"
+              editable={false}
+            />
             <Button
               w="85%"
               onPress={onDeleteVehiclePressed}
@@ -124,18 +146,6 @@ const styles = StyleSheet.create({
     fontSize: 34,
     fontWeight: "500",
     marginVertical: 10,
-  },
-  price: {
-    color: "white",
-    fontWeight: "500",
-    fontSize: 16,
-  },
-  info: {
-    color: "white",
-    marginVertical: 10,
-    fontSize: 18,
-    lineHeight: 30,
-    fontWeight: "300",
   },
 });
 

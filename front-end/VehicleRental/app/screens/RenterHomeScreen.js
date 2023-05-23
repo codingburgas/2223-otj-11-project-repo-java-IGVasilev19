@@ -45,7 +45,6 @@ function RenterHomeScreen() {
   const FirstRoute = () => (
     <Center my="5">
       <FlatList
-        style={styles.vehiclesContainer}
         data={vehicles}
         renderItem={({ item }) =>
           item.vehicle_type == "Car" && item.is_rented == 0 ? (
@@ -71,7 +70,7 @@ function RenterHomeScreen() {
         data={vehicles}
         renderItem={({ item }) =>
           item.vehicle_type == "Motorcycle" && item.is_rented == 0 ? (
-            <TouchableOpacity style={styles.itemContainer} key={item.id}>
+            <TouchableOpacity key={item.id}>
               <Image
                 style={styles.flatListImage}
                 source={{ uri: item.image1 }}
@@ -90,7 +89,7 @@ function RenterHomeScreen() {
         data={vehicles}
         renderItem={({ item }) =>
           item.vehicle_type == "Boat" && item.is_rented == 0 ? (
-            <TouchableOpacity style={styles.itemContainer} key={item.id}>
+            <TouchableOpacity key={item.id}>
               <Image
                 style={styles.flatListImage}
                 source={{ uri: item.image1 }}
@@ -109,7 +108,7 @@ function RenterHomeScreen() {
         data={vehicles}
         renderItem={({ item }) =>
           item.vehicle_type == "Plane" && item.is_rented == 0 ? (
-            <TouchableOpacity style={styles.itemContainer} key={item.id}>
+            <TouchableOpacity key={item.id}>
               <Image
                 style={styles.flatListImage}
                 source={{ uri: item.image1 }}
@@ -156,7 +155,7 @@ function RenterHomeScreen() {
   ]);
 
   async function getVehicles() {
-    const res = await fetch("http://192.168.1.5:8080/vehicle/get", {
+    const res = await fetch("http://192.168.1.4:8080/vehicle/get", {
       method: "POST",
       headers: { "Content-Type": "application/json" },
     });
@@ -289,7 +288,7 @@ const styles = StyleSheet.create({
     width: 150,
     aspectRatio: 1,
     borderRadius: 10,
-    margin: 10
+    margin: 10,
   },
   image: {
     width: 50,

@@ -35,7 +35,7 @@ import { TextInputMask } from "react-native-masked-text";
 import { useCore } from "../providers/CoreProvider";
 import React, { useEffect, useState } from "react";
 
-function OwnerHomeScreen  () {
+function OwnerHomeScreen() {
   const navigation = useNavigation();
   const { user, setUser } = useCore();
   const { vehicle, setVehicle } = useCore();
@@ -96,7 +96,7 @@ function OwnerHomeScreen  () {
         image6,
         owner,
       };
-      const res = await fetch("http://192.168.1.5:8080/vehicle/add", {
+      const res = await fetch("http://192.168.1.4:8080/vehicle/add", {
         method: "POST",
         body: JSON.stringify(vehicle),
         headers: { "Content-Type": "application/json" },
@@ -126,7 +126,7 @@ function OwnerHomeScreen  () {
         setImage5("");
         setImage6("");
       }
-    }else {
+    } else {
       if (!notify.isActive(id)) {
         return notify.show({
           id,
@@ -183,9 +183,9 @@ function OwnerHomeScreen  () {
 
   const onShowDetailsPressed = () => {
     vehicles.map((item) => {
-        navigation.navigate("OwnerVehicleDatails");
-        setVehicle(item);
-    })
+      navigation.navigate("OwnerVehicleDatails");
+      setVehicle(item);
+    });
   };
 
   const FirstRoute = () => (
@@ -194,11 +194,7 @@ function OwnerHomeScreen  () {
         data={vehicles}
         renderItem={({ item }) =>
           item.vehicle_type == "Car" && item.owner == user.username ? (
-            <TouchableOpacity
-              style={styles.itemContainer}
-              key={item.id}
-              onPress={onShowDetailsPressed}
-            >
+            <TouchableOpacity key={item.id} onPress={onShowDetailsPressed}>
               <Image
                 style={styles.flatListImage}
                 source={{ uri: item.image1 }}
@@ -217,7 +213,7 @@ function OwnerHomeScreen  () {
         data={vehicles}
         renderItem={({ item }) =>
           item.vehicle_type == "Motorcycle" && item.owner == user.username ? (
-            <TouchableOpacity style={styles.itemContainer} key={item.id}>
+            <TouchableOpacity key={item.id}>
               <Image
                 style={styles.flatListImage}
                 source={{ uri: item.image1 }}
@@ -236,7 +232,7 @@ function OwnerHomeScreen  () {
         data={vehicles}
         renderItem={({ item }) =>
           item.vehicle_type == "Boat" && item.owner == user.username ? (
-            <TouchableOpacity style={styles.itemContainer} key={item.id}>
+            <TouchableOpacity key={item.id}>
               <Image
                 style={styles.flatListImage}
                 source={{ uri: item.image1 }}
@@ -255,7 +251,7 @@ function OwnerHomeScreen  () {
         data={vehicles}
         renderItem={({ item }) =>
           item.vehicle_type == "Plane" && item.owner == user.username ? (
-            <TouchableOpacity style={styles.itemContainer} key={item.id}>
+            <TouchableOpacity key={item.id}>
               <Image
                 style={styles.flatListImage}
                 source={{ uri: item.image1 }}
@@ -302,7 +298,7 @@ function OwnerHomeScreen  () {
   ]);
 
   async function getVehicles() {
-    const res = await fetch("http://192.168.1.5:8080/vehicle/get", {
+    const res = await fetch("http://192.168.1.4:8080/vehicle/get", {
       method: "POST",
       headers: { "Content-Type": "application/json" },
     });
@@ -775,7 +771,7 @@ function OwnerHomeScreen  () {
       ;
     </Box>
   );
-};
+}
 
 const styles = StyleSheet.create({
   root: {
@@ -788,14 +784,10 @@ const styles = StyleSheet.create({
     alignItems: "center",
   },
   flatListImage: {
-    width: "100%",
+    width: 150,
     aspectRatio: 1,
     borderRadius: 10,
-  },
-  itemContainer: {
-    width: "48%",
-    padding: 5,
-    left: 2,
+    margin: 10,
   },
   image: {
     width: 50,
