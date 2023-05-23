@@ -15,6 +15,8 @@ import {
   Pressable,
   Center,
   useColorModeValue,
+  Button,
+  Icon,
 } from "native-base";
 import React, { useEffect, useState } from "react";
 import { useNavigation } from "@react-navigation/native";
@@ -40,6 +42,10 @@ function RenterHomeScreen() {
   const onShowDetailsPressed = (item) => {
     setVehicle(item);
     navigation.navigate("RenterVehicleDetails");
+  };
+
+  const onGaragePressed = () =>{
+    navigation.navigate("RentedVehicles");
   };
 
   const FirstRoute = () => (
@@ -270,6 +276,16 @@ function RenterHomeScreen() {
           top: 30,
         }}
       />
+      <Center>
+        <Button
+          style={styles.addButton}
+          left={140}
+          bgColor="darkBlue.600"
+          onPress={onGaragePressed}
+        >
+          <MaterialCommunityIcons name="garage-variant" size={35} color="white" />
+        </Button>
+      </Center>
     </Box>
   );
 }
@@ -296,6 +312,12 @@ const styles = StyleSheet.create({
     borderRadius: 55,
     borderColor: "white",
     borderWidth: 3,
+  },
+  addButton: {
+    width: 60,
+    height: 60,
+    borderRadius: 55,
+    bottom: 30
   },
 });
 export default RenterHomeScreen;
