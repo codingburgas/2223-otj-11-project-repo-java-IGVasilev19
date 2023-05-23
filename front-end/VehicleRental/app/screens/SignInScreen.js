@@ -25,7 +25,7 @@ function SignInScreen() {
   const onSignInPressed = async () => {
     if (!value == "" && !password == "") {
       if (value.includes("@") == true && value.includes(".com") == true) {
-        const res = await fetch("http://192.168.1.5:8080/user/getByEmail", {
+        const res = await fetch("http://192.168.1.4:8080/user/getByEmail", {
           method: "POST",
           body: JSON.stringify({
             email: value,
@@ -62,7 +62,7 @@ function SignInScreen() {
           }
         }
       } else {
-        const res = await fetch("http://192.168.1.5:8080/user/getByUsername", {
+        const res = await fetch("http://192.168.1.4:8080/user/getByUsername", {
           method: "POST",
           body: JSON.stringify({
             username: value,

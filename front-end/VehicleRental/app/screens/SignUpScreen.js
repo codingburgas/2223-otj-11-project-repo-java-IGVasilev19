@@ -91,7 +91,8 @@ function SignUpScreen(props) {
       address != "" &&
       phone_num != "" &&
       post_code != "" &&
-      confirmPassword != ""
+      confirmPassword != "" &&
+      profile_pic != ""
     ) {
       if (password == confirmPassword) {
         const user = {
@@ -110,7 +111,7 @@ function SignUpScreen(props) {
           profile_pic,
         };
 
-        const res = await fetch("http://192.168.1.5:8080/user/add", {
+        const res = await fetch("http://192.168.1.4:8080/user/add", {
           method: "POST",
           body: JSON.stringify(user),
           headers: { "Content-Type": "application/json" },
