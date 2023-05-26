@@ -43,4 +43,15 @@ public class VehicleServiceImpl implements VehicleService {
 
         vehicleRepository.save(vehicle);
     }
+
+    public void cancelRent(String vin){
+        Vehicle vehicle = vehicleRepository.findByVin(vin);
+
+        if (vehicle == null) return;
+
+        vehicle.setRenter(null);
+        vehicle.setIs_rented(false);
+
+        vehicleRepository.save(vehicle);
+    }
 }

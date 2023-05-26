@@ -44,7 +44,7 @@ function RenterHomeScreen() {
     navigation.navigate("RenterVehicleDetails");
   };
 
-  const onGaragePressed = () =>{
+  const onGaragePressed = () => {
     navigation.navigate("RentedVehicles");
   };
 
@@ -76,7 +76,10 @@ function RenterHomeScreen() {
         data={vehicles}
         renderItem={({ item }) =>
           item.vehicle_type == "Motorcycle" && item.is_rented == 0 ? (
-            <TouchableOpacity key={item.id}>
+            <TouchableOpacity
+              key={item.id}
+              onPress={() => onShowDetailsPressed(item)}
+            >
               <Image
                 style={styles.flatListImage}
                 source={{ uri: item.image1 }}
@@ -95,7 +98,10 @@ function RenterHomeScreen() {
         data={vehicles}
         renderItem={({ item }) =>
           item.vehicle_type == "Boat" && item.is_rented == 0 ? (
-            <TouchableOpacity key={item.id}>
+            <TouchableOpacity
+              key={item.id}
+              onPress={() => onShowDetailsPressed(item)}
+            >
               <Image
                 style={styles.flatListImage}
                 source={{ uri: item.image1 }}
@@ -114,7 +120,10 @@ function RenterHomeScreen() {
         data={vehicles}
         renderItem={({ item }) =>
           item.vehicle_type == "Plane" && item.is_rented == 0 ? (
-            <TouchableOpacity key={item.id}>
+            <TouchableOpacity
+              key={item.id}
+              onPress={() => onShowDetailsPressed(item)}
+            >
               <Image
                 style={styles.flatListImage}
                 source={{ uri: item.image1 }}
@@ -283,7 +292,11 @@ function RenterHomeScreen() {
           bgColor="darkBlue.600"
           onPress={onGaragePressed}
         >
-          <MaterialCommunityIcons name="garage-variant" size={35} color="white" />
+          <MaterialCommunityIcons
+            name="garage-variant"
+            size={35}
+            color="white"
+          />
         </Button>
       </Center>
     </Box>
@@ -317,7 +330,7 @@ const styles = StyleSheet.create({
     width: 60,
     height: 60,
     borderRadius: 55,
-    bottom: 30
+    bottom: 30,
   },
 });
 export default RenterHomeScreen;

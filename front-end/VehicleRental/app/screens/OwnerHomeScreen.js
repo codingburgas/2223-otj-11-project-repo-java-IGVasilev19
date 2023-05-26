@@ -181,11 +181,9 @@ function OwnerHomeScreen() {
     }
   };
 
-  const onShowDetailsPressed = () => {
-    vehicles.map((item) => {
-      navigation.navigate("OwnerVehicleDatails");
-      setVehicle(item);
-    });
+  const onShowDetailsPressed = (item) => {
+    setVehicle(item);
+    navigation.navigate("OwnerVehicleDatails");
   };
 
   const FirstRoute = () => (
@@ -194,7 +192,10 @@ function OwnerHomeScreen() {
         data={vehicles}
         renderItem={({ item }) =>
           item.vehicle_type == "Car" && item.owner == user.username ? (
-            <TouchableOpacity key={item.id} onPress={onShowDetailsPressed}>
+            <TouchableOpacity
+              key={item.id}
+              onPress={() => onShowDetailsPressed(item)}
+            >
               <Image
                 style={styles.flatListImage}
                 source={{ uri: item.image1 }}
@@ -213,7 +214,10 @@ function OwnerHomeScreen() {
         data={vehicles}
         renderItem={({ item }) =>
           item.vehicle_type == "Motorcycle" && item.owner == user.username ? (
-            <TouchableOpacity key={item.id}>
+            <TouchableOpacity
+              key={item.id}
+              onPress={() => onShowDetailsPressed(item)}
+            >
               <Image
                 style={styles.flatListImage}
                 source={{ uri: item.image1 }}
@@ -232,7 +236,10 @@ function OwnerHomeScreen() {
         data={vehicles}
         renderItem={({ item }) =>
           item.vehicle_type == "Boat" && item.owner == user.username ? (
-            <TouchableOpacity key={item.id}>
+            <TouchableOpacity
+              key={item.id}
+              onPress={() => onShowDetailsPressed(item)}
+            >
               <Image
                 style={styles.flatListImage}
                 source={{ uri: item.image1 }}
@@ -251,7 +258,10 @@ function OwnerHomeScreen() {
         data={vehicles}
         renderItem={({ item }) =>
           item.vehicle_type == "Plane" && item.owner == user.username ? (
-            <TouchableOpacity key={item.id}>
+            <TouchableOpacity
+              key={item.id}
+              onPress={() => onShowDetailsPressed(item)}
+            >
               <Image
                 style={styles.flatListImage}
                 source={{ uri: item.image1 }}

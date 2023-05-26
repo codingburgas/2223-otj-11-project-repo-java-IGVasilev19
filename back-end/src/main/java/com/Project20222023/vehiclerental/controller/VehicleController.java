@@ -32,4 +32,9 @@ public class VehicleController {
     public void rentVehicle(@RequestBody UserVehicle uservehicle){
         vehicleService.rentVehicle(uservehicle.getVin(), uservehicle.getUsername());
     }
+
+    @PostMapping("/cancel")
+    public void cancelRent(@RequestBody UserVehicle userVehicle){
+        vehicleService.cancelRent(userVehicle.getVin());
+    }
 }
