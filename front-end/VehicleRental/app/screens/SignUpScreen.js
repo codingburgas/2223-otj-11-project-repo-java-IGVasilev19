@@ -128,7 +128,7 @@ function SignUpScreen(props) {
             });
           }
         } else {
-          navigation.navigate("Confirm email");
+          navigation.navigate("Sign In");
         }
       } else {
         if (!notify.isActive(id)) {
@@ -442,7 +442,7 @@ function SignUpScreen(props) {
               Sign Up
             </Button>
 
-            <Button
+            {/* <Button
               w="85%"
               onPress={onSignUpWithFacebookPressed}
               bgColor="blue.100"
@@ -458,7 +458,7 @@ function SignUpScreen(props) {
               _text={{ color: "red.400" }}
             >
               Sign in with Google
-            </Button>
+            </Button> */}
 
             <Button
               w="85%"

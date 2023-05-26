@@ -130,7 +130,7 @@ function SignInScreen() {
   return (
     <Box style={styles.root}>
       <Box style={styles.container1}>
-        <Text style={styles.text1}>Welcome to "I Travel Private"</Text>
+        <Text style={styles.text1}>Welcome to ITP V3</Text>
 
         <Text style={styles.text2}>
           Sign in into your account to enlist or rent a vehicle!
@@ -181,7 +181,7 @@ function SignInScreen() {
               Sign In
             </Button>
 
-            <Button
+            {/* <Button
               w="85%"
               onPress={onSignInWithFacebookPressed}
               bgColor="blue.100"
@@ -206,7 +206,7 @@ function SignInScreen() {
               variant="link"
             >
               Forgot password?
-            </Button>
+            </Button> */}
 
             <Button
               w="85%"
@@ -227,12 +227,11 @@ const styles = StyleSheet.create({
   root: {
     flex: 1,
     backgroundColor: "#181A1A",
+    justifyContent:"center"
   },
   container1: {
     alignItems: "center",
-    top: 50,
     margin: 15,
-    alignItems: "center",
   },
   container2: {
     top: 30,
