@@ -50,7 +50,7 @@ const OwnerVehicleDetailScreen = () => {
 
   return (
     <Box style={styles.root}>
-      <Box style={styles.container1}>
+      <VStack style={styles.container1}>
         <Text style={styles.text1}>Vehicle details</Text>
         <Box style={styles.container2}>
           <FlatList
@@ -66,7 +66,7 @@ const OwnerVehicleDetailScreen = () => {
             pagingEnabled
           />
         </Box>
-        <ScrollView style={styles.container3}>
+        <ScrollView style={styles.container3} showsVerticalScrollIndicator={false}>
           <VStack alignItems={"center"} space={3}>
             <Text style={styles.title}>
               {vehicle.brand} {vehicle.model}
@@ -84,6 +84,7 @@ const OwnerVehicleDetailScreen = () => {
               selectionColor="white"
               color={"white"}
               w={"85%"}
+              multiline={true}
               placeholderTextColor="white"
               editable={false}
             />
@@ -104,7 +105,7 @@ const OwnerVehicleDetailScreen = () => {
             </Button>
           </VStack>
         </ScrollView>
-      </Box>
+      </VStack>
     </Box>
   );
 };
@@ -113,12 +114,13 @@ const styles = StyleSheet.create({
   root: {
     flex: 1,
     backgroundColor: "#181A1A",
+    paddingBottom: 100,
   },
   container1: {
+    flex: 1,
     alignItems: "center",
-    top: 50,
+    top: 40,
     margin: 15,
-    alignItems: "center",
   },
   container2: {
     top: 20,
@@ -132,9 +134,6 @@ const styles = StyleSheet.create({
     borderColor: "#363636",
     borderWidth: 1,
     borderRadius: 5,
-
-    paddingTop: 20,
-    paddingBottom: 20,
   },
   text1: {
     fontSize: 28,
