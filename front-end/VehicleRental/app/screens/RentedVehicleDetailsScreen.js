@@ -43,7 +43,7 @@ const RentedVehicleDetailsScreen = () => {
 
   return (
     <Box style={styles.root}>
-      <Box style={styles.container1}>
+      <VStack style={styles.container1}>
         <Text style={styles.text1}>Rented vehicle</Text>
         <Box style={styles.container2}>
           <FlatList
@@ -98,7 +98,7 @@ const RentedVehicleDetailsScreen = () => {
             </Button>
           </VStack>
         </ScrollView>
-      </Box>
+      </VStack>
     </Box>
   );
 };
@@ -107,12 +107,13 @@ const styles = StyleSheet.create({
   root: {
     flex: 1,
     backgroundColor: "#181A1A",
+    paddingBottom: 100,
   },
   container1: {
+    flex: 1,
     alignItems: "center",
-    top: 50,
+    top: 40,
     margin: 15,
-    alignItems: "center",
   },
   container2: {
     top: 20,
