@@ -61,6 +61,7 @@ function RenterHomeScreen() {
               <Image
                 style={styles.flatListImage}
                 source={{ uri: item.image1 }}
+                resizeMode="contain"
               />
             </TouchableOpacity>
           ) : null
@@ -83,6 +84,7 @@ function RenterHomeScreen() {
               <Image
                 style={styles.flatListImage}
                 source={{ uri: item.image1 }}
+                resizeMode="contain"
               />
             </TouchableOpacity>
           ) : null
@@ -105,6 +107,7 @@ function RenterHomeScreen() {
               <Image
                 style={styles.flatListImage}
                 source={{ uri: item.image1 }}
+                resizeMode="contain"
               />
             </TouchableOpacity>
           ) : null
@@ -127,6 +130,7 @@ function RenterHomeScreen() {
               <Image
                 style={styles.flatListImage}
                 source={{ uri: item.image1 }}
+                resizeMode="contain"
               />
             </TouchableOpacity>
           ) : null

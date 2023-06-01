@@ -53,6 +53,7 @@ const RenterVehicleDetailScreen = () => {
               <Image
                 source={{ uri: item }}
                 style={{ width: 326.5, aspectRatio: 1, borderRadius: 5 }}
+                resizeMode="contain"
               />
             )}
             horizontal

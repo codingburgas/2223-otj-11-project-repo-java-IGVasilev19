@@ -199,6 +199,7 @@ function OwnerHomeScreen() {
               <Image
                 style={styles.flatListImage}
                 source={{ uri: item.image1 }}
+                resizeMode="contain"
               />
             </TouchableOpacity>
           ) : null
@@ -221,6 +222,7 @@ function OwnerHomeScreen() {
               <Image
                 style={styles.flatListImage}
                 source={{ uri: item.image1 }}
+                resizeMode="contain"
               />
             </TouchableOpacity>
           ) : null
@@ -243,6 +245,7 @@ function OwnerHomeScreen() {
               <Image
                 style={styles.flatListImage}
                 source={{ uri: item.image1 }}
+                resizeMode="contain"
               />
             </TouchableOpacity>
           ) : null
@@ -265,6 +268,7 @@ function OwnerHomeScreen() {
               <Image
                 style={styles.flatListImage}
                 source={{ uri: item.image1 }}
+                resizeMode="contain"
               />
             </TouchableOpacity>
           ) : null
@@ -395,6 +399,7 @@ function OwnerHomeScreen() {
                         ? { uri: user.profile_pic }
                         : require("../assets/images/user.png")
                     }
+                    resizeMode="contain"
                   />
                 </Box>
               </Pressable>
@@ -580,6 +585,7 @@ function OwnerHomeScreen() {
                         <Image
                           source={{ uri: image1 }}
                           style={styles.vehImage}
+                          resizeMode="contain"
                         />
                       ) : (
                         <>
@@ -613,6 +619,7 @@ function OwnerHomeScreen() {
                         <Image
                           source={{ uri: image2 }}
                           style={styles.vehImage}
+                          resizeMode="contain"
                         />
                       ) : (
                         <>
@@ -646,6 +653,7 @@ function OwnerHomeScreen() {
                         <Image
                           source={{ uri: image3 }}
                           style={styles.vehImage}
+                          resizeMode="contain"
                         />
                       ) : (
                         <>
@@ -686,6 +694,7 @@ function OwnerHomeScreen() {
                         <Image
                           source={{ uri: image4 }}
                           style={styles.vehImage}
+                          resizeMode="contain"
                         />
                       ) : (
                         <>
@@ -719,6 +728,7 @@ function OwnerHomeScreen() {
                         <Image
                           source={{ uri: image5 }}
                           style={styles.vehImage}
+                          resizeMode="contain"
                         />
                       ) : (
                         <>
@@ -752,6 +762,7 @@ function OwnerHomeScreen() {
                         <Image
                           source={{ uri: image6 }}
                           style={styles.vehImage}
+                          resizeMode="contain"
                         />
                       ) : (
                         <>

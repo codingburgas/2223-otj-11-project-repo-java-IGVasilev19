@@ -219,6 +219,7 @@ function SignUpScreen(props) {
                     ? { uri: profile_pic }
                     : require("../assets/images/user.png")
                 }
+                resizeMode="contain"
               />
               <Box style={{ alignItems: "flex-end", top: -18 }}>
                 <Entypo name="pencil" size={20} color="white" />
